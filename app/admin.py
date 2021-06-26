@@ -1,3 +1,18 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+
+class UserInline(admin.TabularInline):
+    model = User
+
+
+class TeamInLine(admin.TabularInline):
+    model = Team
+
+
+class TechnicianAdmin(admin.ModelAdmin):
+    inlines = [
+        UserInline
+    ]
+
