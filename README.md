@@ -1,0 +1,51 @@
+# Classes API Verbos
+* User:
+    * GET
+* TeamTechnician:
+    * GET
+    * POST
+    * PUT
+* Team:
+    * GET
+    * POST
+* Occurrence:
+    * GET
+    * PUT
+* State:
+    * GET
+* OccurrenceState:
+    * GET
+    * POST
+* TypeOfTransport:
+    * GET
+* NonTransportReason:
+    * GET
+    * POST
+* Victim:
+    * GET
+    * POST
+    * PUT
+* Pharmacy:
+    * GET
+    * POST
+* ProcedureScale:
+    * GET
+    * POST
+* ProcedureCirculation:
+    * GET
+    * POST
+* Evaluation:
+    * GET
+    * POST
+* Symptom:
+    * GET
+    * POST
+* ProcedureRCP:
+    * GET
+    * POST
+* ProcedureVentilation:
+    * GET
+    * POST  
+* ProcedureProtocol:
+    * GET
+    * POST  

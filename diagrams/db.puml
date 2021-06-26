@@ -16,6 +16,7 @@ entity Occurrence {
     *local Text
     *parish Text
     *municipality Text
+    *Team
 }
 
 entity Team {
