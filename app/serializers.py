@@ -1,32 +1,34 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from .models import *
 
 
-class UserSimplifiedSerializer(ModelSerializer):
+class UserSimplifiedSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'firstname', 'lastname', 'email']
 
 
-class TeamSerializer(ModelSerializer):
-    class Meta:
-        model = Team
-        fields = ['id', 'team_leader']
+class TechnicianSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='technician.id')
+    username = serializers.ReadOnlyField(source='technician.username')
+    firstname = serializers.ReadOnlyField(source='technician.firstname')
+    lastname = serializers.ReadOnlyField(source='technician.lastname')
 
-
-class TeamTechnicianSerializer(ModelSerializer):
     class Meta:
         model = TeamTechnician
-        fields = ['id', 'team', 'technician', 'active']
-
-    def to_representation(self, instance):
-        self.fields['team'] = TeamSerializer(read_only=True)
-        self.fields['technician'] = UserSimplifiedSerializer(read_only=True)
-        return super(TeamTechnicianSerializer, self).to_representation(instance)
+        fields = ['id', 'username', 'firstname', 'lastname', 'active', 'team_leader']
 
 
-class OccurrenceSerializer(ModelSerializer):
+class TeamSerializer(serializers.ModelSerializer):
+    technicians = TechnicianSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Team
+        fields = ['id', 'technicians']
+
+
+class OccurrenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occurrence
         fields = ['occurrence_number', 'entity', 'mean_of_assistance', 'motive', 'number_of_victims', 'local', 'parish',
@@ -37,13 +39,13 @@ class OccurrenceSerializer(ModelSerializer):
         return super(OccurrenceSerializer, self).to_representation(instance)
 
 
-class StateSerializer(ModelSerializer):
+class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = State
         fields = ['id', 'state']
 
 
-class OccurrenceStateSerializer(ModelSerializer):
+class OccurrenceStateSerializer(serializers.ModelSerializer):
     class Meta:
         model = OccurrenceState
         fields = ['id', 'occurrence', 'state', 'longitude', 'latitude', 'date_time']
@@ -54,19 +56,19 @@ class OccurrenceStateSerializer(ModelSerializer):
         return super(OccurrenceStateSerializer, self).to_representation(instance)
 
 
-class TypeOfTransportSerializer(ModelSerializer):
+class TypeOfTransportSerializer(serializers.ModelSerializer):
     class Meta:
         model = TypeOfTransport
         fields = ['id', 'type_of_transport']
 
 
-class NonTransportReasonSerializer(ModelSerializer):
+class NonTransportReasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = NonTransportReason
         fields = ['id', 'non_transport_reason']
 
 
-class VictimSerializer(ModelSerializer):
+class VictimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Victim
         fields = ['id', 'name', 'birthdate', 'age', 'gender', 'identity_number', 'address', 'circumstances',
@@ -81,7 +83,7 @@ class VictimSerializer(ModelSerializer):
         return super(VictimSerializer, self).to_representation(instance)
 
 
-class PharmacySerializer(ModelSerializer):
+class PharmacySerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmacy
         fields = ['id', 'victim', 'time', 'pharmacy', 'dose', 'route', 'adverse_effect']
@@ -91,7 +93,7 @@ class PharmacySerializer(ModelSerializer):
         return super(PharmacySerializer, self).to_representation(instance)
 
 
-class ProcedureScaleSerializer(ModelSerializer):
+class ProcedureScaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureScale
         fields = ['id', 'victim', 'cincinatti', 'PROACS', 'RTS', 'MGAP', 'RACE']
@@ -101,7 +103,7 @@ class ProcedureScaleSerializer(ModelSerializer):
         return super(ProcedureScaleSerializer, self).to_representation(instance)
 
 
-class ProcedureCirculationSerializer(ModelSerializer):
+class ProcedureCirculationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureCirculation
         fields = ['id', 'victim', 'temperature_monitoring', 'compression', 'tourniquet', 'pelvic_belt', 'venous_access',
@@ -112,7 +114,7 @@ class ProcedureCirculationSerializer(ModelSerializer):
         return super(ProcedureCirculationSerializer, self).to_representation(instance)
 
 
-class EvaluationSerializer(ModelSerializer):
+class EvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evaluation
         fields = ['id', 'victim', 'hours', 'avds', 'ventilation', 'spo2', 'o2', 'etco2', 'pulse', 'ecg', 'skin',
@@ -124,7 +126,7 @@ class EvaluationSerializer(ModelSerializer):
         return super(EvaluationSerializer, self).to_representation(instance)
 
 
-class SymptomSerializer(ModelSerializer):
+class SymptomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Symptom
         fields = ['id', 'victim', 'comments', 'image_path']
@@ -134,7 +136,7 @@ class SymptomSerializer(ModelSerializer):
         return super(SymptomSerializer, self).to_representation(instance)
 
 
-class ProcedureRCPSerializer(ModelSerializer):
+class ProcedureRCPSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureRCP
         fields = ['id', 'witnessed', 'SBV_DAE', 'SIV_SAV', 'first_rhythm', 'nr_shocks', 'recovery', 'downtime',
@@ -145,7 +147,7 @@ class ProcedureRCPSerializer(ModelSerializer):
         return super(ProcedureRCPSerializer, self).to_representation(instance)
 
 
-class ProcedureVentilationSerializer(ModelSerializer):
+class ProcedureVentilationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureVentilation
         fields = ['id', 'victim', 'clearance', 'oropharyngeal', 'laryngeal_tube', 'endotracheal', 'laryngeal_mask',
@@ -156,7 +158,7 @@ class ProcedureVentilationSerializer(ModelSerializer):
         return super(ProcedureVentilationSerializer, self).to_representation(instance)
 
 
-class ProcedureProtocolSerializer(ModelSerializer):
+class ProcedureProtocolSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureProtocol
         fields = ['id', 'immobilization', 'TEPH', 'SIV', 'VV_AVC', 'VV_coronary', 'VV_sepsis', 'VV_trauma', 'VV_PCR',

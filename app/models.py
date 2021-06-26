@@ -3,13 +3,8 @@ from django.contrib.auth.models import User
 
 
 class Team(models.Model):
-    team_leader = models.ForeignKey(
-        User,
-        on_delete=models.RESTRICT
-    )
-
     def __str__(self):
-        return self.team_leader.username
+        return str(self.id)
 
 
 class TeamTechnician(models.Model):
@@ -23,7 +18,8 @@ class TeamTechnician(models.Model):
         on_delete=models.RESTRICT,
         related_name="technician_teams"
     )
-    active = models.BooleanField()
+    active = models.BooleanField(default=True)
+    team_leader = models.BooleanField(default=False)
 
     models.UniqueConstraint(
         fields=['team', 'technician'],
@@ -31,7 +27,7 @@ class TeamTechnician(models.Model):
     )
 
     def __str__(self):
-        return self.team.team_leader.username + self.technician.username + str(self.active)
+        return self.team.__str__() + self.technician.username + str(self.active) + str(self.team_leader)
 
 
 class Occurrence(models.Model):
