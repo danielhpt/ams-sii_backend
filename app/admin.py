@@ -5,6 +5,10 @@ from .models import *
 admin.site.site_header = "Sireph Administrator Page"
 
 
+class TeamTechnicianInline(admin.TabularInline):
+    model = TeamTechnician
+
+
 class ProcedureScaleInline(admin.StackedInline):
     model = ProcedureScale
 
@@ -33,58 +37,42 @@ class PharmacyInline(admin.TabularInline):
     model = Pharmacy
 
 
+class EvaluationInline(admin.TabularInline):
+    model = Evaluation
+
+
 class VictimAdmin(admin.ModelAdmin):
     inlines = [
+        EvaluationInline,
+        SymptomInline,
         ProcedureRCPInline,
         ProcedureVentilationInline,
         ProcedureCirculationInline,
         ProcedureProtocolInline,
         ProcedureScaleInline,
-        SymptomInline,
         PharmacyInline,
     ]
 
 
+class OccurrenceStateInline(admin.TabularInline):
+    model = OccurrenceState
+
+
 class OccurrenceAdmin(admin.ModelAdmin):
-    pass
-
-
-class OccurrenceStateAdmin(admin.ModelAdmin):
-    pass
-
-
-class StateAdmin(admin.ModelAdmin):
-    pass
-
-
-class NonTransportReasonAdmin(admin.ModelAdmin):
-    pass
-
-
-class TypeOfTransportAdmin(admin.ModelAdmin):
-    pass
-
-
-class EvaluationAdmin(admin.ModelAdmin):
-    pass
+    inlines = [
+        OccurrenceStateInline
+    ]
 
 
 class TeamAdmin(admin.ModelAdmin):
-    pass
+    inlines = [
+        TeamTechnicianInline,
+    ]
 
 
 admin.site.register(Victim, VictimAdmin)
 admin.site.register(Occurrence, OccurrenceAdmin)
-admin.site.register(OccurrenceState, OccurrenceAdmin)
-admin.site.register(State, StateAdmin)
-admin.site.register(Pharmacy)
-admin.site.register(ProcedureScale)
-admin.site.register(ProcedureCirculation)
-admin.site.register(ProcedureProtocol)
-admin.site.register(ProcedureVentilation)
-admin.site.register(ProcedureRCP)
-admin.site.register(NonTransportReason, NonTransportReasonAdmin)
-admin.site.register(TypeOfTransport, TypeOfTransportAdmin)
-admin.site.register(Symptom)
-admin.site.register(Evaluation, EvaluationAdmin)
+admin.site.register(State)
+admin.site.register(NonTransportReason)
+admin.site.register(TypeOfTransport)
 admin.site.register(Team, TeamAdmin)

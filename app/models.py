@@ -149,6 +149,9 @@ class Pharmacy(models.Model):
     route = models.CharField(max_length=50, null=True, blank=True)
     adverse_effect = models.CharField(max_length=50, null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Pharmacies"
+
     def __str__(self):
         return self.pharmacy + '' + str(self.victim.id)
 
@@ -230,7 +233,7 @@ class Symptom(models.Model):
 class ProcedureRCP(models.Model):
     witnessed = models.BooleanField()
     SBV_DAE = models.DateTimeField(null=True, blank=True)
-    first_rhythm = models.CharField(max_length= 25, null=True, blank=True)
+    first_rhythm = models.CharField(max_length=25, null=True, blank=True)
     nr_shocks = models.PositiveIntegerField(null=True, blank=True)
     recovery = models.DateTimeField(null=True, blank=True)
     downtime = models.DateTimeField(null=True, blank=True)
