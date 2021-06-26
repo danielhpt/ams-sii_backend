@@ -2,20 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Technician(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.RESTRICT,
-        primary_key=True
-    )
-
-    def __str__(self):
-        return self.user.username
-
-
 class Team(models.Model):
     team_leader = models.ForeignKey(
-        Technician,
+        User,
         on_delete=models.RESTRICT
     )
 
@@ -27,7 +16,7 @@ class TeamTechnician(models.Model):
         related_name="team_technicians"
     )
     technician = models.ForeignKey(
-        Technician,
+        User,
         on_delete=models.RESTRICT,
         related_name="technician_teams"
     )
