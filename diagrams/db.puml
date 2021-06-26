@@ -1,0 +1,189 @@
+@startuml data_model
+!define LIGHTBLUE
+!includeurl https://gist.githubusercontent.com/amgs/de57560012a8a5f0e4240f392b678a40/raw/c43f948dd1f23ed1b87c6c9fc972e71493859b16/style.puml
+hide circle
+skinparam linetype ortho
+hide empty methods
+
+entity Occurrence {
+    *occurrence_number int
+    *entity Text
+    *mean_of_assistance Text
+    *motive Text
+    *number_of_victims int
+    *local Text
+    *parish Text
+    *municipality Text
+}
+
+entity Team {
+    *team_leader Technician
+}
+entity Victim {
+    *name Text
+    *birthdate Date
+    *age int
+    *gender Text
+    *identity_number Text
+    *address Text
+    *circumstances Text
+    *disease_history Text
+    *allergies Text
+    *last_meal Text
+    *last_meal_time DateTime
+    *usual_medication Text
+    *risk_situation Text
+    *medical_followup Boolean
+    *health_unit_origin Text
+    *health_unit_destination Text
+    *episode_number int
+    *comments Text
+    *type_of_emergency Text
+    *Type_Of_Transport
+    *Non_Transport_Reason
+    *Occurrence
+}
+
+entity Evaluation {
+    *hours DateTime
+    *AVDS int
+    *ventilation int
+    *Sp02 int
+    *O2_supply int
+    *EtC02 int
+    *pulse int
+    *ecg Boolean
+    *skin Text
+    *temperature float
+    *systolic_blood_pressure int
+    *diastolic_blood_pressure int
+    *pupils Text
+    *pain int
+    *glycemia int
+    *NEWS int
+}
+
+
+entity State {
+    *state Text
+}
+
+entity OccurrenceState {
+    *Occurrence
+    *State
+    *longitude float
+    *latitude float
+    *date_time DateTime
+}
+
+entity Symptom {
+    *Victim
+    *comments Text
+    *image_path Text
+}
+
+entity TypeOfTransport {
+    *type_of_transport Text
+}
+
+entity NonTransportReason {
+    *non_transport_reason Text
+}
+
+entity ProcedureRCP {
+    *Victim
+    *witnessed Boolean
+    *SBV_DAE DateTime
+    *SIV_SAV DateTime
+    *first_rhythm Text
+    *nr_shocks int
+    *recovery DateTime
+    *downtime DateTime
+    *mechanical_compressions int
+    *performed Boolean
+
+}
+
+entity ProcedureVentilation {
+    *Victim
+    *clearance Boolean
+    *oropharyngeal Boolean
+    *laryngeal_tube Boolean
+    *endotracheal_tube Boolean
+    *laryngeal_mask Boolean
+    *mechanical_ventilation Boolean
+    *cpap Boolean
+}
+
+entity ProcedureProtocol {
+    *Victim
+    *immobilization Boolean
+    *TEPH Boolean
+    *SIV Boolean
+    *VV_AVC Boolean
+    *VV_coronary Boolean
+    *VV_sepsis Boolean
+    *VV_trauma Boolean
+    *VV_PCR Boolean
+}
+
+entity ProcedureCirculation {
+    *Victim
+    *temperature_monitoring Boolean
+    *compression Boolean
+    *tourniquet Boolean
+    *pelvic_belt Boolean
+    *venous_access Boolean
+    *patch Boolean
+    *ecg Boolean
+}
+
+entity ProcedureScale {
+    *Victim
+    *cincinatti int
+    *PROACS int
+    *RTS int
+    *MGAP int
+    *RACE int
+}
+
+entity Pharmacy {
+    *Victim
+    *time Time
+    *pharmacy Text
+    *dose Text
+    *route Text
+    *adverse_effect Text
+}
+
+entity Technician {
+    *User
+}
+
+entity TeamTechnician {
+    *Team
+    *Technician
+    *active Boolean
+}
+
+entity User {}
+
+User ||--|| Technician
+Technician ||--|{ TeamTechnician
+TeamTechnician }|--|| Team
+Team ||--|{ Occurrence
+OccurrenceState }|--|| State
+Occurrence ||--|{ OccurrenceState
+Occurrence ||--|{ Victim
+Victim ||--|{  Evaluation
+Victim ||--|{ Pharmacy
+Victim ||--|{ ProcedureRCP
+Victim ||--|{ ProcedureCirculation
+Victim ||--|{ ProcedureProtocol
+Victim ||--|{ ProcedureScale
+Victim ||--|{ ProcedureVentilation
+Victim ||--|| Symptom
+Victim }|--|| NonTransportReason
+Victim }|--|| TypeOfTransport
+
+@enduml
