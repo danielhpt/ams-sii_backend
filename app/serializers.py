@@ -15,15 +15,15 @@ class TeamSerializer(ModelSerializer):
         fields = ['id', 'team_leader']
 
 
-class TeamTechnicianSerializers(ModelSerializer):
+class TeamTechnicianSerializer(ModelSerializer):
     class Meta:
-        model = User
+        model = TeamTechnician
         fields = ['id', 'team', 'technician', 'active']
 
     def to_representation(self, instance):
         self.fields['team'] = TeamSerializer(read_only=True)
         self.fields['technician'] = UserSimplifiedSerializer(read_only=True)
-        return super(TeamTechnicianSerializers, self).to_representation(instance)
+        return super(TeamTechnicianSerializer, self).to_representation(instance)
 
 
 class OccurrenceSerializer(ModelSerializer):

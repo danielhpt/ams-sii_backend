@@ -1,12 +1,12 @@
 # Classes API Verbos
 * User:
-    * GET
+    * GET (UserList)
 * TeamTechnician:
     * GET
     * POST
     * PUT
 * Team:
-    * GET
+    * GET (TeamList)
     * POST
 * Occurrence:
     * GET
