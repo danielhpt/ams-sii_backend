@@ -94,6 +94,7 @@ class Victim(models.Model):
     episode_number = models.PositiveIntegerField()
     comments = models.CharField(max_length=400, null=True, blank=True)
     type_of_emergency = models.CharField(max_length=100, null=True, blank=True)
+    SIV_SAV = models.DateTimeField(null=True, blank=True)
     type_of_transport = models.ForeignKey(
         TypeOfTransport,
         on_delete=models.RESTRICT,
@@ -126,10 +127,10 @@ class Pharmacy(models.Model):
 
 
 class ProcedureScale(models.Model):
-    victim = models.ForeignKey(
+    victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        related_name="procedure_scales"
+        primary_key=True
     )
     cincinatti = models.PositiveSmallIntegerField(null=True, blank=True)
     PROACS = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -139,10 +140,10 @@ class ProcedureScale(models.Model):
 
 
 class ProcedureCirculation(models.Model):
-    victim = models.ForeignKey(
+    victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        related_name="procedure_circulation"
+        primary_key=True
     )
     temperature_monitoring = models.BooleanField()
     compression = models.BooleanField()
@@ -190,25 +191,24 @@ class Symptom(models.Model):
 class ProcedureRCP(models.Model):
     witnessed = models.BooleanField()
     SBV_DAE = models.DateTimeField(null=True, blank=True)
-    SIV_SAV = models.DateTimeField(null=True, blank=True)
     first_rhythm = models.CharField(max_length= 25, null=True, blank=True)
     nr_shocks = models.PositiveIntegerField(null=True, blank=True)
     recovery = models.DateTimeField(null=True, blank=True)
     downtime = models.DateTimeField(null=True, blank=True)
     mechanical_compressions = models.PositiveIntegerField(null=True, blank=True)
     performed = models.BooleanField()
-    victim = models.ForeignKey(
+    victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        related_name="procedure_RCP"
+        primary_key=True
     )
 
 
 class ProcedureVentilation(models.Model):
-    victim = models.ForeignKey(
+    victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        related_name="procedure_ventilation"
+        primary_key=True
     )
     clearance = models.BooleanField(null=True, blank=True)
     oropharyngeal = models.BooleanField(null=True, blank=True)
@@ -228,8 +228,8 @@ class ProcedureProtocol(models.Model):
     VV_sepsis = models.BooleanField()
     VV_trauma = models.BooleanField()
     VV_PCR = models.BooleanField()
-    victim = models.ForeignKey(
+    victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        related_name="procedure_protocol"
+        primary_key=True
     )

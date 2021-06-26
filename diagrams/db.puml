@@ -43,6 +43,7 @@ entity Victim {
     *episode_number int
     *comments Text
     *type_of_emergency Text
+    *SIV_SAV DateTime
     *Type_Of_Transport
     *Non_Transport_Reason
     *Occurrence
@@ -97,7 +98,6 @@ entity ProcedureRCP {
     *Victim
     *witnessed Boolean
     *SBV_DAE DateTime
-    *SIV_SAV DateTime
     *first_rhythm Text
     *nr_shocks int
     *recovery DateTime
@@ -173,11 +173,11 @@ Occurrence ||--|{ OccurrenceState
 Occurrence ||--|{ Victim
 Victim ||--|{  Evaluation
 Victim ||--|{ Pharmacy
-Victim ||--|{ ProcedureRCP
-Victim ||--|{ ProcedureCirculation
-Victim ||--|{ ProcedureProtocol
-Victim ||--|{ ProcedureScale
-Victim ||--|{ ProcedureVentilation
+Victim ||--|| ProcedureRCP
+Victim ||--|| ProcedureCirculation
+Victim ||--|| ProcedureProtocol
+Victim ||--|| ProcedureScale
+Victim ||--|| ProcedureVentilation
 Victim ||--|| Symptom
 Victim }|--|| NonTransportReason
 Victim }|--|| TypeOfTransport

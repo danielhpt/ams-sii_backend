@@ -31,9 +31,11 @@
 * ProcedureScale:
     * GET
     * POST
+    * PUT
 * ProcedureCirculation:
     * GET
     * POST
+    * PUT
 * Evaluation:
     * GET
     * POST
@@ -43,9 +45,12 @@
 * ProcedureRCP:
     * GET
     * POST
+    * PUT
 * ProcedureVentilation:
     * GET
     * POST  
+    * PUT
 * ProcedureProtocol:
     * GET
     * POST  
+    * PUT
