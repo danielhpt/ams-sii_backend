@@ -8,6 +8,9 @@ class Team(models.Model):
         on_delete=models.RESTRICT
     )
 
+    def __str__(self):
+        return self.team_leader.username
+
 
 class TeamTechnician(models.Model):
     team = models.ForeignKey(
@@ -27,6 +30,9 @@ class TeamTechnician(models.Model):
         name='unique1'
     )
 
+    def __str__(self):
+        return self.team.team_leader.username + self.technician.username + str(self.active)
+
 
 class Occurrence(models.Model):
     occurrence_number = models.IntegerField()
@@ -43,9 +49,15 @@ class Occurrence(models.Model):
         on_delete=models.RESTRICT
     )
 
+    def __str__(self):
+        return str(self.id) + '' + str(self.occurrence_number)
+
 
 class State(models.Model):
     state = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.state
 
 
 class OccurrenceState(models.Model):
@@ -65,13 +77,22 @@ class OccurrenceState(models.Model):
 
     models.UniqueConstraint(fields=['occurrence', 'state'], name='unique2')
 
+    def __str__(self):
+        return str(self.occurrence.id) + self.state.state
+
 
 class TypeOfTransport(models.Model):
     type_of_transport = models.CharField(max_length=100, null=True, blank=True)
 
+    def __str__(self):
+        return self.type_of_transport
+
 
 class NonTransportReason(models.Model):
     non_transport_reason = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.non_transport_reason
 
 
 class Victim(models.Model):
@@ -112,6 +133,9 @@ class Victim(models.Model):
         on_delete=models.RESTRICT
     )
 
+    def __str__(self):
+        return str(self.id) + '-' + self.name
+
 
 class Pharmacy(models.Model):
     victim = models.ForeignKey(
@@ -125,6 +149,12 @@ class Pharmacy(models.Model):
     route = models.CharField(max_length=50, null=True, blank=True)
     adverse_effect = models.CharField(max_length=50, null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Pharmacies"
+
+    def __str__(self):
+        return self.pharmacy + '' + str(self.victim.id)
+
 
 class ProcedureScale(models.Model):
     victim = models.OneToOneField(
@@ -137,6 +167,9 @@ class ProcedureScale(models.Model):
     RTS = models.PositiveSmallIntegerField(null=True, blank=True)
     MGAP = models.PositiveSmallIntegerField(null=True, blank=True)
     RACE = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.victim.id) + ' - Scale procedures'
 
 
 class ProcedureCirculation(models.Model):
@@ -152,6 +185,9 @@ class ProcedureCirculation(models.Model):
     venous_access = models.BooleanField()
     patch = models.BooleanField()
     ecg = models.BooleanField()
+
+    def __str__(self):
+        return str(self.victim.id) + '- Circulation procedures'
 
 
 class Evaluation(models.Model):
@@ -177,6 +213,9 @@ class Evaluation(models.Model):
     glycemia = models.PositiveSmallIntegerField(null=True, blank=True)
     news = models.PositiveSmallIntegerField(null=True, blank=True)
 
+    def __str__(self):
+        return str(self.victim.id) + '' + str(self.hours)
+
 
 class Symptom(models.Model):
     victim = models.OneToOneField(
@@ -187,11 +226,14 @@ class Symptom(models.Model):
     comments = models.CharField(max_length=400, null=True, blank=True)
     image_path = models.CharField(max_length=100, null=True, blank=True)
 
+    def __str__(self):
+        return str(self.victim.id) + '- Symptoms'
+
 
 class ProcedureRCP(models.Model):
     witnessed = models.BooleanField()
     SBV_DAE = models.DateTimeField(null=True, blank=True)
-    first_rhythm = models.CharField(max_length= 25, null=True, blank=True)
+    first_rhythm = models.CharField(max_length=25, null=True, blank=True)
     nr_shocks = models.PositiveIntegerField(null=True, blank=True)
     recovery = models.DateTimeField(null=True, blank=True)
     downtime = models.DateTimeField(null=True, blank=True)
@@ -202,6 +244,9 @@ class ProcedureRCP(models.Model):
         on_delete=models.RESTRICT,
         primary_key=True
     )
+
+    def __str__(self):
+        return str(self.victim.id) + '- RCP procedures'
 
 
 class ProcedureVentilation(models.Model):
@@ -218,6 +263,9 @@ class ProcedureVentilation(models.Model):
     mechanical_ventilation = models.BooleanField(null=True, blank=True)
     cpap = models.BooleanField(null=True, blank=True)
 
+    def __str__(self):
+        return str(self.victim.id) + '- Ventilation procedures'
+
 
 class ProcedureProtocol(models.Model):
     immobilization = models.BooleanField()
@@ -233,3 +281,6 @@ class ProcedureProtocol(models.Model):
         on_delete=models.RESTRICT,
         primary_key=True
     )
+
+    def __str__(self):
+        return str(self.victim.id) + '- Protocol procedures'
