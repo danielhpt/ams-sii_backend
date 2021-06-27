@@ -53,6 +53,12 @@ class OccurrenceSerializer(serializers.ModelSerializer):
                   'parish', 'municipality', 'team']
 
 
+class VictimIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Victim
+        fields = ['id']
+
+
 class VictimSimplifiedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Victim
@@ -119,6 +125,20 @@ class PharmacySerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmacy
         fields = ['id', 'time', 'pharmacy', 'dose', 'route', 'adverse_effect']
+
+
+class PharmacyDetailSerializer(serializers.ModelSerializer):
+    victim = VictimIdSerializer(read_only=True)
+
+    class Meta:
+        model = Pharmacy
+        fields = ['id', 'time', 'pharmacy', 'dose', 'route', 'adverse_effect', 'victim']
+
+    def create(self, validated_data):
+        validated_data = self.data.serializer.initial_data
+        del validated_data['id']
+        pharmacy = Pharmacy.objects.create(**validated_data)
+        return pharmacy
 
 
 class ProcedureScaleSerializer(serializers.ModelSerializer):

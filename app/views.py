@@ -76,7 +76,7 @@ class TeamDetail(APIView):
 
         return Response(serializer.data)
 
-    def put(self, request, team_id): #todo update and test
+    def put(self, request, team_id):  # todo update and test
         team = get_object_or_404(Team, pk=team_id)
         data = request.data.copy()
         serializer = TeamSerializer(team, data=data)
@@ -244,7 +244,31 @@ class VictimDetails(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# todo VictimPharmacyList
+
+class VictimPharmacyList(APIView):
+    """List the pharmacies of a Victim"""
+
+    def get(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        pharmacies = Pharmacy.objects.filter(victim=victim)
+        serializer = PharmacySerializer(pharmacies, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = PharmacyDetailSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = PharmacySerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 # todo VictimPharmacyDetail
 # todo VictimEvaluationList
 # todo VictimEvaluationDetail
