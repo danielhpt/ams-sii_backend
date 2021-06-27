@@ -140,7 +140,26 @@ class OccurrenceDetails(APIView):
             return Response(serializer.data)
 
 
-# todo OccurrenceVictimsList
+class OccurrenceVictimsList(APIView):
+    def get(self, request, occurrence_id):
+        occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
+        victim = get_object_or_404(Victim, occurrence=occurrence)
+        serializer = VictimSerializer(victim, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request, occurrence_id):
+        occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
+
+        victim = Victim()
+        victim.occurrence = occurrence
+        serializer = VictimSerializer(victim, many=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class StateList(APIView):
@@ -267,7 +286,6 @@ class VictimPharmacyList(APIView):
             return Response(result.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # todo VictimPharmacyDetail
 # todo VictimEvaluationList
