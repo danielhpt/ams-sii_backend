@@ -151,7 +151,7 @@ class OccurrenceVictimsList(APIView):
 
         return Response(serializer.data)
 
-#todo
+    # todo
     def post(self, request, occurrence_id):
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
