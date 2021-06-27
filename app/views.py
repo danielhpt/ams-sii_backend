@@ -96,7 +96,7 @@ class TeamOccurrencesList(APIView):
 
         return Response(serializer.data)
 
-    def post(self, request, team_id):
+    def post(self, request, team_id):  # working
         team = get_object_or_404(Team, pk=team_id)
 
         data = request.data.copy()
