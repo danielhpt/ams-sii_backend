@@ -15,6 +15,7 @@ class UserList(APIView):
 
         return Response(serializer.data)
 
+
 class TeamList(APIView):
     """List all Teams"""
 
