@@ -176,7 +176,7 @@ class VictimDetailsSerializer(serializers.ModelSerializer):
     procedure_protocol = ProcedureProtocolSerializer(read_only=True)
     procedure_circulation = ProcedureCirculationSerializer(read_only=True)
     procedure_scale = ProcedureScaleSerializer(read_only=True)
-    pharmacy = PharmacySerializer(read_only=True)
+    pharmacy = PharmacySerializer(many=True, read_only=True)
 
     class Meta:
         model = Victim

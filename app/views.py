@@ -16,9 +16,36 @@ class UserList(APIView):
         return Response(serializer.data)
 
 
-# todo UserDetail
-# todo UserTeamList
-# todo UserOccurrenceList
+class UserDetail(APIView):
+    """List the details of an User"""
+
+    def get(self, request, user_id):  # working
+        user = get_object_or_404(User, pk=user_id)
+        serializer = UserSimplifiedSerializer(user)
+
+        return Response(serializer.data)
+
+
+class UserTeamList(APIView):
+    """List the teams of an User"""
+
+    def get(self, request, user_id):  # working
+        user = get_object_or_404(User, pk=user_id)
+        teams = Team.objects.filter(team_technicians__technician=user)
+        serializer = TeamSerializer(teams, many=True)
+
+        return Response(serializer.data)
+
+
+class UserOccurrenceList(APIView):
+    """List the occurrences of an User"""
+
+    def get(self, request, user_id):  # working
+        user = get_object_or_404(User, pk=user_id)
+        occurrences = Occurrence.objects.filter(team__team_technicians__technician=user)
+        serializer = OccurrenceSerializer(occurrences, many=True)
+
+        return Response(serializer.data)
 
 
 class TeamList(APIView):
@@ -177,3 +204,17 @@ class VictimDetails(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# todo VictimPharmacyList
+# todo VictimPharmacyDetail
+# todo VictimEvaluationList
+# todo VictimEvaluationDetail
+
+# only put e post?
+# todo VictimSymptom
+# todo VictimProcedureRCP
+# todo VictimProcedureVentilation
+# todo VictimProcedureProtocol
+# todo VictimProcedureCirculation
+# todo VictimProcedureScale
