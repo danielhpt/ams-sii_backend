@@ -287,9 +287,52 @@ class VictimPharmacyList(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# todo VictimPharmacyDetail
-# todo VictimEvaluationList
-# todo VictimEvaluationDetail
+
+class VictimPharmacyDetail(APIView):
+    """List the details of a pharmacies of a Victim"""
+
+    def get(self, request, victim_id, pharmacy_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        pharmacy = get_object_or_404(Pharmacy, pk=pharmacy_id, victim=victim)
+        serializer = PharmacySerializer(pharmacy)
+
+        return Response(serializer.data)
+
+
+class VictimEvaluationList(APIView):
+    """List the evaluations of a Victim"""
+
+    def get(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        evaluations = Evaluation.objects.filter(victim=victim)
+        serializer = EvaluationSerializer(evaluations, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = EvaluationDetailSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = EvaluationSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VictimEvaluationDetail(APIView):
+    """List the details of an evaluation of a Victim"""
+
+    def get(self, request, victim_id, evaluation_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        evaluation = get_object_or_404(Evaluation, pk=evaluation_id, victim=victim)
+        serializer = EvaluationSerializer(evaluation)
+
+        return Response(serializer.data)
+
 
 # only put e post?
 # todo VictimSymptom

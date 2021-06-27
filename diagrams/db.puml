@@ -50,6 +50,7 @@ entity Victim {
 }
 
 entity Evaluation {
+    *Victim
     *hours DateTime
     *AVDS int
     *ventilation int

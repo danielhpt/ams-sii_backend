@@ -1,5 +1,7 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.datetime_safe import datetime
 
 
 class Team(models.Model):
@@ -157,7 +159,8 @@ class ProcedureScale(models.Model):
     victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        primary_key=True
+        primary_key=True,
+        related_name='procedure_scale'
     )
     cincinatti = models.PositiveSmallIntegerField(null=True, blank=True)
     PROACS = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -173,7 +176,8 @@ class ProcedureCirculation(models.Model):
     victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        primary_key=True
+        primary_key=True,
+        related_name='procedure_circulation'
     )
     temperature_monitoring = models.BooleanField()
     compression = models.BooleanField()
@@ -191,9 +195,9 @@ class Evaluation(models.Model):
     victim = models.ForeignKey(
         Victim,
         on_delete=models.RESTRICT,
-        related_name="victim_evaluations"
+        related_name="evaluations"
     )
-    hours = models.DateTimeField(),
+    hours = models.DateTimeField()
     avds = models.IntegerField(null=True, blank=True)
     ventilation = models.PositiveSmallIntegerField(null=True, blank=True)
     spo2 = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -206,7 +210,7 @@ class Evaluation(models.Model):
     systolic_blood_pressure = models.PositiveSmallIntegerField(null=True, blank=True)
     diastolic_blood_pressure = models.PositiveSmallIntegerField(null=True, blank=True)
     pupils = models.CharField(max_length=50, null=True, blank=True)
-    pain = models.PositiveSmallIntegerField(null=True, blank=True)
+    pain = models.PositiveSmallIntegerField(null=True, blank=True, validators=[MaxValueValidator(10)])
     glycemia = models.PositiveSmallIntegerField(null=True, blank=True)
     news = models.PositiveSmallIntegerField(null=True, blank=True)
 
@@ -218,7 +222,8 @@ class Symptom(models.Model):
     victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        primary_key=True
+        primary_key=True,
+        related_name='symptom'
     )
     comments = models.CharField(max_length=400, null=True, blank=True)
     image_path = models.CharField(max_length=100, null=True, blank=True)
@@ -228,18 +233,19 @@ class Symptom(models.Model):
 
 
 class ProcedureRCP(models.Model):
-    witnessed = models.BooleanField()
-    SBV_DAE = models.DateTimeField(null=True, blank=True)
+    witnessed = models.BooleanField(default=False)
+    SBV_DAE = models.DateTimeField(null=True, blank=True, default=datetime.now)
     first_rhythm = models.CharField(max_length=25, null=True, blank=True)
     nr_shocks = models.PositiveIntegerField(null=True, blank=True)
     recovery = models.DateTimeField(null=True, blank=True)
     downtime = models.DateTimeField(null=True, blank=True)
     mechanical_compressions = models.PositiveIntegerField(null=True, blank=True)
-    performed = models.BooleanField()
+    performed = models.BooleanField(default=False)
     victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        primary_key=True
+        primary_key=True,
+        related_name='procedure_rcp'
     )
 
     def __str__(self):
@@ -250,33 +256,35 @@ class ProcedureVentilation(models.Model):
     victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        primary_key=True
+        primary_key=True,
+        related_name='procedure_ventilation'
     )
-    clearance = models.BooleanField(null=True, blank=True)
-    oropharyngeal = models.BooleanField(null=True, blank=True)
-    laryngeal_tube = models.BooleanField(null=True, blank=True)
-    endotracheal = models.BooleanField(null=True, blank=True)
-    laryngeal_mask = models.BooleanField(null=True, blank=True)
-    mechanical_ventilation = models.BooleanField(null=True, blank=True)
-    cpap = models.BooleanField(null=True, blank=True)
+    clearance = models.BooleanField(default=False)
+    oropharyngeal = models.BooleanField(default=False)
+    laryngeal_tube = models.BooleanField(default=False)
+    endotracheal = models.BooleanField(default=False)
+    laryngeal_mask = models.BooleanField(default=False)
+    mechanical_ventilation = models.BooleanField(default=False)
+    cpap = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.victim.id) + '- Ventilation procedures'
 
 
 class ProcedureProtocol(models.Model):
-    immobilization = models.BooleanField()
-    TEPH = models.BooleanField()
-    SIV = models.BooleanField()
-    VV_AVC = models.BooleanField()
-    VV_coronary = models.BooleanField()
-    VV_sepsis = models.BooleanField()
-    VV_trauma = models.BooleanField()
-    VV_PCR = models.BooleanField()
+    immobilization = models.BooleanField(default=False)
+    TEPH = models.BooleanField(default=False)
+    SIV = models.BooleanField(default=False)
+    VV_AVC = models.BooleanField(default=False)
+    VV_coronary = models.BooleanField(default=False)
+    VV_sepsis = models.BooleanField(default=False)
+    VV_trauma = models.BooleanField(default=False)
+    VV_PCR = models.BooleanField(default=False)
     victim = models.OneToOneField(
         Victim,
         on_delete=models.RESTRICT,
-        primary_key=True
+        primary_key=True,
+        related_name='procedure_protocol'
     )
 
     def __str__(self):

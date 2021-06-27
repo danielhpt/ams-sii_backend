@@ -144,13 +144,13 @@ class PharmacyDetailSerializer(serializers.ModelSerializer):
 class ProcedureScaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureScale
-        fields = ['id', 'cincinatti', 'PROACS', 'RTS', 'MGAP', 'RACE']
+        fields = ['cincinatti', 'PROACS', 'RTS', 'MGAP', 'RACE']
 
 
 class ProcedureCirculationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureCirculation
-        fields = ['id', 'temperature_monitoring', 'compression', 'tourniquet', 'pelvic_belt', 'venous_access', 'patch',
+        fields = ['temperature_monitoring', 'compression', 'tourniquet', 'pelvic_belt', 'venous_access', 'patch',
                   'ecg']
 
 
@@ -161,50 +161,65 @@ class EvaluationSerializer(serializers.ModelSerializer):
                   'systolic_blood_pressure', 'diastolic_blood_pressure', 'pupils', 'pain', 'glycemia', 'news']
 
 
+class EvaluationDetailSerializer(serializers.ModelSerializer):
+    victim = VictimIdSerializer(read_only=True)
+
+    class Meta:
+        model = Evaluation
+        fields = ['id', 'hours', 'avds', 'ventilation', 'spo2', 'o2', 'etco2', 'pulse', 'ecg', 'skin', 'temperature',
+                  'systolic_blood_pressure', 'diastolic_blood_pressure', 'pupils', 'pain', 'glycemia', 'news', 'victim']
+
+    def create(self, validated_data):
+        validated_data = self.data.serializer.initial_data
+        del validated_data['id']
+        evaluation = Evaluation.objects.create(**validated_data)
+        return evaluation
+
+
 class SymptomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Symptom
-        fields = ['id', 'comments', 'image_path']
+        fields = ['comments', 'image_path']
 
 
 class ProcedureRCPSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureRCP
-        fields = ['id', 'witnessed', 'SBV_DAE', 'SIV_SAV', 'first_rhythm', 'nr_shocks', 'recovery', 'downtime',
+        fields = ['witnessed', 'SBV_DAE', 'first_rhythm', 'nr_shocks', 'recovery', 'downtime',
                   'mechanical_compressions', 'performed']
 
 
 class ProcedureVentilationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureVentilation
-        fields = ['id', 'clearance', 'oropharyngeal', 'laryngeal_tube', 'endotracheal', 'laryngeal_mask',
+        fields = ['clearance', 'oropharyngeal', 'laryngeal_tube', 'endotracheal', 'laryngeal_mask',
                   'mechanical_ventilation', 'cpap']
 
 
 class ProcedureProtocolSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureProtocol
-        fields = ['id', 'immobilization', 'TEPH', 'SIV', 'VV_AVC', 'VV_coronary', 'VV_sepsis', 'VV_trauma', 'VV_PCR']
+        fields = ['immobilization', 'TEPH', 'SIV', 'VV_AVC', 'VV_coronary', 'VV_sepsis', 'VV_trauma', 'VV_PCR']
 
 
 class VictimDetailsSerializer(serializers.ModelSerializer):
     type_of_transport = serializers.ReadOnlyField(source='type_of_transport.type_of_transport')
     non_transport_reason = serializers.ReadOnlyField(source='non_transport_reason.non_transport_reason')
     occurrence = OccurrenceSimplifiedSerializer(read_only=True)
-    symptom = SymptomSerializer(read_only=True)
-    evaluations = EvaluationSerializer(many=True, read_only=True)
+    evaluations = EvaluationSerializer(read_only=True, many=True)
+    pharmacies = PharmacySerializer(many=True, read_only=True)
     procedure_rcp = ProcedureRCPSerializer(read_only=True)
     procedure_ventilation = ProcedureVentilationSerializer(read_only=True)
     procedure_protocol = ProcedureProtocolSerializer(read_only=True)
     procedure_circulation = ProcedureCirculationSerializer(read_only=True)
     procedure_scale = ProcedureScaleSerializer(read_only=True)
-    pharmacy = PharmacySerializer(many=True, read_only=True)
+    symptom = SymptomSerializer(read_only=True)
 
     class Meta:
         model = Victim
         fields = ['id', 'name', 'birthdate', 'age', 'gender', 'identity_number', 'address', 'circumstances',
                   'disease_history', 'allergies', 'last_meal', 'last_meal_time', 'usual_medication', 'risk_situation',
                   'medical_followup', 'health_unit_origin', 'health_unit_destination', 'episode_number', 'comments',
-                  'type_of_emergency', 'type_of_transport', 'non_transport_reason', 'occurrence', 'symptom',
-                  'evaluations', 'procedure_rcp', 'procedure_ventilation', 'procedure_protocol',
-                  'procedure_circulation', 'procedure_scale', 'pharmacy']
+                  'type_of_emergency', 'type_of_transport', 'non_transport_reason', 'occurrence', 'evaluations',
+                  'symptom', 'procedure_rcp', 'procedure_ventilation', 'procedure_protocol',
+                  'procedure_circulation', 'procedure_scale', 'pharmacies']
