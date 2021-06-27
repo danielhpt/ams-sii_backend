@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView, Response, status
 
-from .models import *
 from .serializers import *
 
 
@@ -68,8 +67,48 @@ class TeamList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# todo TeamDetail
-# todo TeamOccurrencesList
+class TeamDetail(APIView):
+    """List the details of a Team"""
+
+    def get(self, request, team_id):  # working
+        team = get_object_or_404(Team, pk=team_id)
+        serializer = TeamSerializer(team)
+
+        return Response(serializer.data)
+
+    def put(self, request, team_id): #todo update and test
+        team = get_object_or_404(Team, pk=team_id)
+        data = request.data.copy()
+        serializer = TeamSerializer(team, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+
+class TeamOccurrencesList(APIView):
+    """List all Ocurrences for a specific Team"""
+
+    def get(self, request, team_id):
+        team = get_object_or_404(Team, pk=team_id)
+        occurrence = get_object_or_404(Occurrence, team=team)
+        serializer = OccurrenceSerializer(occurrence)
+
+        return Response(serializer.data)
+
+    def post(self, request, team_id):
+        team = get_object_or_404(Team, pk=team_id)
+
+        occurrence = Occurrence()
+        occurrence.team = team
+
+        serializer = OccurrenceSerializer(occurrence)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OccurrenceList(APIView):
@@ -204,7 +243,6 @@ class VictimDetails(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # todo VictimPharmacyList
 # todo VictimPharmacyDetail

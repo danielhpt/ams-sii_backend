@@ -42,6 +42,8 @@ class TeamSerializer(serializers.ModelSerializer):
         return team
 
 
+# todo Update
+
 class OccurrenceSerializer(serializers.ModelSerializer):
     team = TeamSerializer(read_only=True)
 
