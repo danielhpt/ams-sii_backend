@@ -98,6 +98,12 @@ class OccurrenceStateSerializer(serializers.ModelSerializer):
         model = OccurrenceState
         fields = ['id', 'state', 'longitude', 'latitude', 'date_time']
 
+    def create(self, validated_data):
+        validated_data = self.data.serializer.initial_data
+        del validated_data['id']
+        occurrenceState = OccurrenceState.objects.create(**validated_data)
+        return occurrenceState
+
 
 class OccurrenceSimplifiedSerializer(serializers.ModelSerializer):
     class Meta:
@@ -139,6 +145,16 @@ class VictimSerializer(serializers.ModelSerializer):
                   'disease_history', 'allergies', 'last_meal', 'last_meal_time', 'usual_medication', 'risk_situation',
                   'medical_followup', 'health_unit_origin', 'health_unit_destination', 'episode_number', 'comments',
                   'type_of_emergency', 'type_of_transport', 'non_transport_reason', 'occurrence']
+
+    def create(self, validated_data):
+        validated_data = self.data.serializer.initial_data
+        del validated_data['id']
+        if validated_data['type_of_transport']:
+            validated_data['type_of_transport'] = TypeOfTransport.objects.get(pk=validated_data['type_of_transport']['id'])
+        if validated_data['non_transport_reason']:
+            validated_data['non_transport_reason'] = NonTransportReason.objects.get(pk=validated_data['non_transport_reason']['id'])
+        victim = Victim.objects.create(**validated_data)
+        return victim
 
 
 class PharmacySerializer(serializers.ModelSerializer):

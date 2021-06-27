@@ -5,6 +5,7 @@ from .serializers import *
 
 
 # API
+# done
 class UserList(APIView):
     """List all Users"""
 
@@ -15,6 +16,7 @@ class UserList(APIView):
         return Response(serializer.data)
 
 
+# done
 class UserDetail(APIView):
     """List the details of an User"""
 
@@ -25,6 +27,7 @@ class UserDetail(APIView):
         return Response(serializer.data)
 
 
+# done
 class UserTeamList(APIView):
     """List the teams of an User"""
 
@@ -36,6 +39,7 @@ class UserTeamList(APIView):
         return Response(serializer.data)
 
 
+# done
 class UserOccurrenceList(APIView):
     """List the occurrences of an User"""
 
@@ -47,6 +51,7 @@ class UserOccurrenceList(APIView):
         return Response(serializer.data)
 
 
+# done
 class TeamList(APIView):
     """List all Teams"""
 
@@ -86,8 +91,9 @@ class TeamDetail(APIView):
             return Response(serializer.data)
 
 
+# done
 class TeamOccurrencesList(APIView):
-    """List all Ocurrences for a specific Team"""
+    """List all Occurrences for a specific Team"""
 
     def get(self, request, team_id):  # working
         team = get_object_or_404(Team, pk=team_id)
@@ -112,6 +118,7 @@ class TeamOccurrencesList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class OccurrenceList(APIView):
     """List all Occurrences"""
 
@@ -122,6 +129,7 @@ class OccurrenceList(APIView):
         return Response(serializer.data)
 
 
+# done
 class OccurrenceDetails(APIView):
     """List the details of an Occurrence"""
 
@@ -141,112 +149,60 @@ class OccurrenceDetails(APIView):
             return Response(serializer.data)
 
 
+# done
 class OccurrenceVictimsList(APIView):
-    """List all Victims of an Occurrence"""
+    """List all victims of an Occurrence"""
 
-    def get(self, request, occurrence_id):  # todo test
+    def get(self, request, occurrence_id):  # working
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
-        victim = Victim.objects.filter(occurrence=occurrence)
-        serializer = VictimSerializer(victim, many=True)
+        victims = Victim.objects.filter(occurrence=occurrence)
+        serializer = VictimSerializer(victims, many=True)
 
         return Response(serializer.data)
 
-    # todo
-    def post(self, request, occurrence_id):
+    def post(self, request, occurrence_id):  # working
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
-        victim = Victim()
-        victim.occurrence = occurrence
-        serializer = VictimSerializer(victim, many=True)
+        data = request.data.copy()
+        data['occurrence'] = occurrence
+        serializer = VictimSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            result = VictimSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class StateList(APIView):
-    """List all States"""
-
-    def get(self, request):
-        states = State.objects.all()
-        serializer = StateSerializer(states, many=True)
-
-        return Response(serializer.data)
-
-
+# done
 class OccurrenceStateList(APIView):
-    """List all Occurrence States"""
+    """List all States of an Occurrence"""
 
-    def get(self, request):
-        occurrence_states = OccurrenceState.objects.all()
+    def get(self, request, occurrence_id):  # working
+        occurrence = Occurrence.objects.get(pk=occurrence_id)
+        occurrence_states = OccurrenceState.objects.filter(occurrence=occurrence)
         serializer = OccurrenceStateSerializer(occurrence_states, many=True)
 
         return Response(serializer.data)
 
-    def post(self, request, occurrence_id):
+    def post(self, request, occurrence_id):  # working
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
         data = request.data.copy()
-        state = State.objects.get(pk=data.state.id)
+        data['occurrence'] = occurrence
+        data['state'] = State.objects.get(pk=data['state']['id'])
 
-        occurrenceState = OccurrenceState()
-        occurrenceState.occurrence = occurrence
-        occurrenceState.state = state
-
-        serializer = OccurrenceStateSerializer(occurrenceState)
+        serializer = OccurrenceStateSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            result = OccurrenceStateSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TypeOfTransportList(APIView):
-    """List all Type of transports"""
-
-    def get(self, request, victim_pk):
-        transports_type = TypeOfTransport.objects.all()
-        serializer = TypeOfTransportSerializer(transports_type, many=True)
-
-        return Response(serializer.data)
-
-
-class NonTransportReasonList(APIView):
-    """List all non transport reasons"""
-
-    def get(self, request, victim_id):
-        victim = get_object_or_404(Victim, pk=victim_id)
-        non_transport_reason = NonTransportReason.objects.all().filter(victim=victim)
-        serializer = NonTransportReasonSerializer(non_transport_reason)
-
-        return Response(serializer.data)
-
-
-class VictimList(APIView):
-    """List all victims"""
-
-    def get(self, request, occurrence_id):
-        occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
-        victim = Victim.objects.all().filter(occurrence=occurrence)
-        serializer = VictimSerializer(victim)
-
-        return Response(serializer.data)
-
-    def post(self, request, occurrence_id):
-        occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
-        data = request.data.copy()
-        data["occurrence"] = occurrence.id
-        serializer = VictimDetailsSerializer(data=data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+# done
 class VictimDetails(APIView):
     """List the details of a Victim"""
 
@@ -268,6 +224,7 @@ class VictimDetails(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimPharmacyList(APIView):
     """List the pharmacies of a Victim"""
 
@@ -292,6 +249,7 @@ class VictimPharmacyList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimPharmacyDetail(APIView):
     """List the details of a pharmacies of a Victim"""
 
@@ -303,6 +261,7 @@ class VictimPharmacyDetail(APIView):
         return Response(serializer.data)
 
 
+# done
 class VictimEvaluationList(APIView):
     """List the evaluations of a Victim"""
 
@@ -327,6 +286,7 @@ class VictimEvaluationList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimEvaluationDetail(APIView):
     """List the details of an evaluation of a Victim"""
 
@@ -338,6 +298,7 @@ class VictimEvaluationDetail(APIView):
         return Response(serializer.data)
 
 
+# done
 class VictimSymptomList(APIView):
     """List the Symptons of a Victim"""
 
@@ -367,6 +328,7 @@ class VictimSymptomList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimProcedureRCPList(APIView):
     """List the RCP Procedures of a Victim"""
 
@@ -396,6 +358,7 @@ class VictimProcedureRCPList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimProcedureVentilationList(APIView):
     """List the Ventilation Procedures of a Victim"""
 
@@ -425,6 +388,7 @@ class VictimProcedureVentilationList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimProcedureProtocolList(APIView):
     """List the Protocol Procedures of a Victim"""
 
@@ -454,6 +418,7 @@ class VictimProcedureProtocolList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimProcedureCirculationList(APIView):
     """List the Circulation Procedures of a Victim"""
 
@@ -483,6 +448,7 @@ class VictimProcedureCirculationList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class VictimProcedureScaleList(APIView):
     """List the Scale Procedures of a Victim"""
 
@@ -510,3 +476,33 @@ class VictimProcedureScaleList(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TypeOfTransportList(APIView):
+    """List all Type of transports"""
+
+    def get(self, request):
+        transports_type = TypeOfTransport.objects.all()
+        serializer = TypeOfTransportSerializer(transports_type, many=True)
+
+        return Response(serializer.data)
+
+
+class NonTransportReasonList(APIView):
+    """List all non transport reasons"""
+
+    def get(self, request):
+        non_transport_reason = NonTransportReason.objects.all()
+        serializer = NonTransportReasonSerializer(non_transport_reason)
+
+        return Response(serializer.data)
+
+
+class StateList(APIView):
+    """List all States"""
+
+    def get(self, request):
+        states = State.objects.all()
+        serializer = StateSerializer(states, many=True)
+
+        return Response(serializer.data)

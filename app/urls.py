@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/occurrences/', OccurrenceList.as_view(), name="occurrence_list"),  # admin only?
     path('api/occurrences/<int:occurrence_id>/', OccurrenceDetails.as_view(), name="occurrence_detail"),
     path('api/occurrences/<int:occurrence_id>/victims/', OccurrenceVictimsList.as_view(), name="occurrence_victims_list"),
+    path('api/occurrences/<int:occurrence_id>/states/', OccurrenceStateList.as_view(), name="occurrence_states_list"),
 
     path('api/victims/<int:victim_id>/', VictimDetails.as_view(), name="victim_detail"),
     path('api/victims/<int:victim_id>/pharmacies/', VictimPharmacyList.as_view(), name="victim_pharmacy_list"),
