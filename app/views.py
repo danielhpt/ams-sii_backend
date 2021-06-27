@@ -20,12 +20,12 @@ class TeamList(APIView):
 
     def get(self, request):
         teams = Team.objects.all()
-        serializer = TeamDetailsSerializer(teams, many=True)
+        serializer = TeamSerializer(teams, many=True)
 
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = TeamDetailsSerializer(data=request.data.copy())
+        serializer = TeamSerializer(data=request.data.copy())
 
         if serializer.is_valid():
             serializer.save()
