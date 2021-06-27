@@ -42,21 +42,19 @@ class TeamSerializer(serializers.ModelSerializer):
         return team
 
     def update(self, instance, validated_data):
-        instance.technicians = validated_data.get('technicians', instance.technicians)
+        validated_data = self.data.serializer.initial_data
+        teamTechniciansOld = TeamTechnician.objects.filter(team_id=instance.id)
+        teamTechniciansNew = validated_data.pop('technicians')
 
-        for technician_data in validated_data.pop('technicians'):
-            technician = instance.technicians.get(pk=technician_data['id'])
-            technician.username = technician_data['username']
-            technician.first_name = technician_data['first_name']
-            technician.last_name = technician_data['last_name']
-            technician.active = technician_data['active']
-            technician.team_leader = technician_data['team_leader']
-            technician.save()
+        for ttOld in teamTechniciansOld:
+            for ttNew in teamTechniciansNew:
+                if ttOld.id == ttNew['id']:
+                    if ttNew['active'] is not None:
+                        ttOld.active = ttNew['active']
+            ttOld.save()
 
         return instance
 
-
-# todo Update
 
 class OccurrenceSerializer(serializers.ModelSerializer):
     team = TeamSerializer(read_only=True)

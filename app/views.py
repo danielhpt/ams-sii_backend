@@ -72,6 +72,7 @@ class TeamList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# done
 class TeamDetail(APIView):
     """List the details of a Team"""
 
@@ -81,14 +82,17 @@ class TeamDetail(APIView):
 
         return Response(serializer.data)
 
-    def put(self, request, team_id):  # todo update and test
+    def put(self, request, team_id):  # working
         team = get_object_or_404(Team, pk=team_id)
         data = request.data.copy()
         serializer = TeamSerializer(team, data=data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            result = TeamSerializer(Team.objects.get(pk=serializer.instance.id))
+            return Response(result.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # done
