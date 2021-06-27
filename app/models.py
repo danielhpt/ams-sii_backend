@@ -27,7 +27,7 @@ class TeamTechnician(models.Model):
     )
 
     def __str__(self):
-        return self.team.__str__() + self.technician.username + str(self.active) + str(self.team_leader)
+        return self.team.__str__() + self.technician.get_username() + str(self.active) + str(self.team_leader)
 
 
 class Occurrence(models.Model):

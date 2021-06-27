@@ -6,38 +6,40 @@ from .models import *
 class UserSimplifiedSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'firstname', 'lastname', 'email']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
 
 
 class TechnicianSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='technician.id')
     username = serializers.ReadOnlyField(source='technician.username')
-    firstname = serializers.ReadOnlyField(source='technician.firstname')
-    lastname = serializers.ReadOnlyField(source='technician.lastname')
+    first_name = serializers.ReadOnlyField(source='technician.first_name')
+    last_name = serializers.ReadOnlyField(source='technician.last_name')
 
     class Meta:
         model = TeamTechnician
-        fields = ['id', 'username', 'firstname', 'lastname', 'active', 'team_leader']
+        fields = ['id', 'username', 'first_name', 'last_name', 'active', 'team_leader']
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    technicians = TechnicianSerializer(many=True)
+    technicians = TechnicianSerializer(many=True, source='team_technicians')
 
     class Meta:
         model = Team
         fields = ['id', 'technicians']
 
     def create(self, validated_data):
+        validated_data = self.data.serializer.initial_data
         technicians_data = validated_data.pop('technicians')
-        team = Team.objects.create(**validated_data)
+        team = Team.objects.create()
         for technician_data in technicians_data:
-            user = User.objects.get(pk=technician_data.id)
+            user = User.objects.get(pk=technician_data['id'])
             teamTechnician = TeamTechnician()
             teamTechnician.team = team
             teamTechnician.technician = user
-            teamTechnician.active = technician_data.active
-            teamTechnician.team_leader = technician_data.team_leader
+            teamTechnician.active = technician_data['active']
+            teamTechnician.team_leader = technician_data['team_leader']
             teamTechnician.save()
+        return team
 
 
 class OccurrenceSerializer(serializers.ModelSerializer):
