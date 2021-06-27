@@ -11,7 +11,7 @@ urlpatterns = [
 
     path('api/teams/', TeamList.as_view(), name="team_list"),  # admin only?
     path('api/teams/<int:team_id>/', TeamDetail.as_view(), name="team_detail"),
-    # path('api/teams/<int:team_id>/occurrences/', None, name="team_occurrences_list"),
+    path('api/teams/<int:team_id>/occurrences/', TeamOccurrencesList.as_view(), name="team_occurrences_list"),
 
     path('api/occurrences/', OccurrenceList.as_view(), name="occurrence_list"),  # admin only?
     path('api/occurrences/<int:occurrence_id>/', OccurrenceDetails.as_view(), name="occurrence_detail"),
@@ -22,12 +22,12 @@ urlpatterns = [
     path('api/victims/<int:victim_id>/pharmacies/<int:pharmacy_id>/', VictimPharmacyDetail.as_view(), name="victim_pharmacy_detail"),
     path('api/victims/<int:victim_id>/evaluations/', VictimEvaluationList.as_view(), name="victim_evaluation_list"),
     path('api/victims/<int:victim_id>/evaluations/<int:evaluation_id>/', VictimEvaluationDetail.as_view(), name="victim_evaluation_detail"),
-    # path('api/victims/<int:victim_id>/symptom/', None, name="victim_symptom"),
-    # path('api/victims/<int:victim_id>/procedure_rcp/', None, name="victim_procedure_rcp"),
-    # path('api/victims/<int:victim_id>/procedure_ventilation/', None, name="victim_procedure_ventilation"),
-    # path('api/victims/<int:victim_id>/procedure_protocol/', None, name="victim_procedure_protocol"),
-    # path('api/victims/<int:victim_id>/procedure_circulation/', None, name="victim_procedure_circulation"),
-    # path('api/victims/<int:victim_id>/procedure_scale/', None, name="victim_procedure_scale"),
+    path('api/victims/<int:victim_id>/symptom/', VictimSymptomList.as_view(), name="victim_symptom"),
+    path('api/victims/<int:victim_id>/procedure_rcp/', VictimProcedureRCPList.as_view(), name="victim_procedure_rcp"),
+    path('api/victims/<int:victim_id>/procedure_ventilation/', VictimProcedureVentilationList.as_view(), name="victim_procedure_ventilation"),
+    path('api/victims/<int:victim_id>/procedure_protocol/', VictimProcedureProtocolList.as_view(), name="victim_procedure_protocol"),
+    path('api/victims/<int:victim_id>/procedure_circulation/', VictimProcedureCirculationList.as_view(), name="victim_procedure_circulation"),
+    path('api/victims/<int:victim_id>/procedure_scale/', VictimProcedureScaleList.as_view(), name="victim_procedure_scale"),
 
     # WEB
     # path('', views.index, name="index"),

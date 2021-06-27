@@ -89,7 +89,7 @@ class TeamDetail(APIView):
 class TeamOccurrencesList(APIView):
     """List all Ocurrences for a specific Team"""
 
-    def get(self, request, team_id):
+    def get(self, request, team_id):  # working
         team = get_object_or_404(Team, pk=team_id)
         occurrence = get_object_or_404(Occurrence, team=team)
         serializer = OccurrenceSerializer(occurrence)
@@ -99,14 +99,15 @@ class TeamOccurrencesList(APIView):
     def post(self, request, team_id):
         team = get_object_or_404(Team, pk=team_id)
 
-        occurrence = Occurrence()
-        occurrence.team = team
+        data = request.data.copy()
+        data['team'] = team
 
-        serializer = OccurrenceSerializer(occurrence)
+        serializer = OccurrenceSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            result = OccurrenceSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -141,14 +142,16 @@ class OccurrenceDetails(APIView):
 
 
 class OccurrenceVictimsList(APIView):
-    def get(self, request, occurrence_id):
+    """List all Victims of an Occurrence"""
+
+    def get(self, request, occurrence_id):  # todo test
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
         victim = get_object_or_404(Victim, occurrence=occurrence)
         serializer = VictimSerializer(victim, many=True)
 
         return Response(serializer.data)
 
-    def post(self, request, occurrence_id):
+    def post(self, request, occurrence_id):  # todo test
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
         victim = Victim()
@@ -334,10 +337,175 @@ class VictimEvaluationDetail(APIView):
         return Response(serializer.data)
 
 
-# only put e post?
-# todo VictimSymptom
-# todo VictimProcedureRCP
-# todo VictimProcedureVentilation
-# todo VictimProcedureProtocol
-# todo VictimProcedureCirculation
-# todo VictimProcedureScale
+class VictimSymptomList(APIView):
+    """List the Symptons of a Victim"""
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = SymptomSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = SymptomSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        symptom = get_object_or_404(Symptom, pk=victim)
+        data = request.data.copy()
+        serializer = SymptomSerializer(symptom, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VictimProcedureRCPList(APIView):
+    """List the RCP Procedures of a Victim"""
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = ProcedureRCPSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = ProcedureRCPSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        procedureRCP = get_object_or_404(ProcedureRCP, pk=victim)
+        data = request.data.copy()
+        serializer = ProcedureRCPSerializer(procedureRCP, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VictimProcedureVentilationList(APIView):
+    """List the Ventilation Procedures of a Victim"""
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = ProcedureVentilationSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = ProcedureVentilationSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        procedureVentilation = get_object_or_404(ProcedureVentilation, pk=victim)
+        data = request.data.copy()
+        serializer = ProcedureVentilationSerializer(procedureVentilation, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VictimProcedureProtocolList(APIView):
+    """List the Protocol Procedures of a Victim"""
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = ProcedureProtocolSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = ProcedureProtocolSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        procedureProtocol = get_object_or_404(ProcedureProtocol, pk=victim)
+        data = request.data.copy()
+        serializer = ProcedureProtocolSerializer(procedureProtocol, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VictimProcedureCirculationList(APIView):
+    """List the Circulation Procedures of a Victim"""
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = ProcedureCirculationSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = ProcedureCirculationSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        procedureCirculation = get_object_or_404(ProcedureCirculation, pk=victim)
+        data = request.data.copy()
+        serializer = ProcedureCirculationSerializer(procedureCirculation, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VictimProcedureScaleList(APIView):
+    """List the Scale Procedures of a Victim"""
+
+    def post(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        data = request.data.copy()
+        data['victim'] = victim
+        serializer = ProcedureScaleSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            result = ProcedureScaleSerializer(serializer.instance)
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, victim_id):  # working
+        victim = get_object_or_404(Victim, pk=victim_id)
+        procedureScale = get_object_or_404(ProcedureScale, pk=victim)
+        data = request.data.copy()
+        serializer = ProcedureScaleSerializer(procedureScale, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
