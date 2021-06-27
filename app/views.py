@@ -146,12 +146,13 @@ class OccurrenceVictimsList(APIView):
 
     def get(self, request, occurrence_id):  # todo test
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
-        victim = get_object_or_404(Victim, occurrence=occurrence)
+        victim = Victim.objects.filter(occurrence=occurrence)
         serializer = VictimSerializer(victim, many=True)
 
         return Response(serializer.data)
 
-    def post(self, request, occurrence_id):  # todo test
+#todo
+    def post(self, request, occurrence_id):
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
         victim = Victim()
