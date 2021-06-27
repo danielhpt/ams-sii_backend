@@ -4,7 +4,6 @@ from rest_framework.views import APIView, Response, status
 from .serializers import *
 
 
-# API
 # done
 class UserList(APIView):
     """List all Users"""
