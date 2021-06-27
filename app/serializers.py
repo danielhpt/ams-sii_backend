@@ -41,6 +41,20 @@ class TeamSerializer(serializers.ModelSerializer):
             teamTechnician.save()
         return team
 
+    def update(self, instance, validated_data):
+        instance.technicians = validated_data.get('technicians', instance.technicians)
+
+        for technician_data in validated_data.pop('technicians'):
+            technician = instance.technicians.get(pk=technician_data['id'])
+            technician.username = technician_data['username']
+            technician.first_name = technician_data['first_name']
+            technician.last_name = technician_data['last_name']
+            technician.active = technician_data['active']
+            technician.team_leader = technician_data['team_leader']
+            technician.save()
+
+        return instance
+
 
 # todo Update
 
