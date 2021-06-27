@@ -9,48 +9,48 @@
     * GET (TeamList)
     * POST
 * Occurrence:
-    * GET
-    * PUT
+    * GET (OccurrenceList) (OccurrenceDetails)
+    * PUT (OccurrenceDetails)
 * State:
-    * GET
+    * GET (StateList)
 * OccurrenceState:
-    * GET
+    * GET (OccurenceStateList)
     * POST
 * TypeOfTransport:
-    * GET
+    * GET (TypeOfTransportList)
 * NonTransportReason:
-    * GET
-    * POST
+    * GET (NonTransportReasonList)
+    * POST (NonTransportReasonList)
 * Victim:
-    * GET
-    * POST
-    * PUT
+    * GET (VictimList) (VictimDetails)
+    * POST (VictimList)
+    * PUT (VictimDetails)
 * Pharmacy:
-    * GET
+    * GET (PharmacyList)
     * POST
 * ProcedureScale:
-    * GET
+    * GET (ProcedureScaleList)
     * POST
     * PUT
 * ProcedureCirculation:
-    * GET
+    * GET (ProcedureCirculationList)
     * POST
     * PUT
 * Evaluation:
-    * GET
+    * GET (EvaluationList)
     * POST
 * Symptom:
-    * GET
+    * GET (SymptomList)
     * POST
 * ProcedureRCP:
-    * GET
+    * GET (ProcedureRCPList)
     * POST
     * PUT
 * ProcedureVentilation:
-    * GET
+    * GET (ProcedureProtocolList)
     * POST  
     * PUT
 * ProcedureProtocol:
-    * GET
+    * GET (ProcedureVentilationList)
     * POST  
     * PUT

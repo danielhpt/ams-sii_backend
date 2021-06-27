@@ -31,29 +31,34 @@ class TeamSerializer(serializers.ModelSerializer):
 class OccurrenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occurrence
-        fields = ['occurrence_number', 'entity', 'mean_of_assistance', 'motive', 'number_of_victims', 'local', 'parish',
-                  'municipality', 'team']
+        fields = ['id', 'occurrence_number', 'entity', 'mean_of_assistance', 'motive', 'number_of_victims', 'local',
+                  'parish', 'municipality', 'team']
 
     def to_representation(self, instance):
         self.fields['team'] = TeamSerializer(read_only=True)
         return super(OccurrenceSerializer, self).to_representation(instance)
 
+class OccurrenceDetailSerializer(serializers.ModelSerializer):
+    victims = VictimSimplifiedSerializer(many=True, read_only=True)
+    states = OccurrenceStateSerializer(many=True, read_only=True)
+    team = TeamSerializer(read_only=True)
 
-class StateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = State
-        fields = ['id', 'state']
+        model = Occurrence
+        fields = ['id', 'occurrence_number', 'entity', 'mean_of_assistance', 'motive', 'number_of_victims', 'local',
+                  'parish', 'municipality', 'team', 'victims', 'states']
 
 
-class OccurrenceStateSerializer(serializers.ModelSerializer):
+class TypeOfTransportSerializer(serializers.ModelSerializer):
     class Meta:
-        model = OccurrenceState
-        fields = ['id', 'occurrence', 'state', 'longitude', 'latitude', 'date_time']
+        model = TypeOfTransport
+        fields = ['id', 'type_of_transport']
 
-    def to_representation(self, instance):
-        self.fields['occurrence'] = OccurrenceSerializer(read_only=True)
-        self.fields['state'] = StateSerializer(read_only=True)
-        return super(OccurrenceStateSerializer, self).to_representation(instance)
+
+class NonTransportReasonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NonTransportReason
+        fields = ['id', 'non_transport_reason']
 
 
 class TypeOfTransportSerializer(serializers.ModelSerializer):

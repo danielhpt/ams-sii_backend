@@ -126,7 +126,8 @@ class Victim(models.Model):
     )
     occurrence = models.ForeignKey(
         Occurrence,
-        on_delete=models.RESTRICT
+        on_delete=models.RESTRICT,
+        related_name='victims'
     )
 
     def __str__(self):
