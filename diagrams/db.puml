@@ -23,6 +23,14 @@ entity Team {
     *team_leader User
 }
 
+entity TypeOfTransport {
+    *type_of_transport Text
+}
+
+entity NonTransportReason {
+    *non_transport_reason Text
+}
+
 entity Victim {
     *name Text
     *birthdate Date
@@ -49,26 +57,6 @@ entity Victim {
     *Occurrence
 }
 
-entity Evaluation {
-    *Victim
-    *hours DateTime
-    *AVDS int
-    *ventilation int
-    *Sp02 int
-    *O2_supply int
-    *EtC02 int
-    *pulse int
-    *ecg Boolean
-    *skin Text
-    *temperature float
-    *systolic_blood_pressure int
-    *diastolic_blood_pressure int
-    *pupils Text
-    *pain int
-    *glycemia int
-    *NEWS int
-}
-
 entity State {
     *state Text
 }
@@ -85,14 +73,6 @@ entity Symptom {
     *Victim
     *comments Text
     *image_path Text
-}
-
-entity TypeOfTransport {
-    *type_of_transport Text
-}
-
-entity NonTransportReason {
-    *non_transport_reason Text
 }
 
 entity ProcedureRCP {
@@ -116,6 +96,26 @@ entity ProcedureVentilation {
     *laryngeal_mask Boolean
     *mechanical_ventilation Boolean
     *cpap Boolean
+}
+
+entity Evaluation {
+    *Victim
+    *hours DateTime
+    *AVDS int
+    *ventilation int
+    *Sp02 int
+    *O2_supply int
+    *EtC02 int
+    *pulse int
+    *ecg Boolean
+    *skin Text
+    *temperature float
+    *systolic_blood_pressure int
+    *diastolic_blood_pressure int
+    *pupils Text
+    *pain int
+    *glycemia int
+    *NEWS int
 }
 
 entity ProcedureProtocol {
