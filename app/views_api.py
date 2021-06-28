@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView, Response, status
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .serializers import *
 
@@ -7,6 +9,8 @@ from .serializers import *
 # done
 class UserList(APIView):
     """List all Users"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     def get(self, request):  # working
         users = User.objects.all()
@@ -18,6 +22,8 @@ class UserList(APIView):
 # done
 class UserDetail(APIView):
     """List the details of an User"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, user_id):  # working
         user = get_object_or_404(User, pk=user_id)
@@ -29,6 +35,8 @@ class UserDetail(APIView):
 # done
 class UserTeamList(APIView):
     """List the teams of an User"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, user_id):  # working
         user = get_object_or_404(User, pk=user_id)
@@ -37,10 +45,22 @@ class UserTeamList(APIView):
 
         return Response(serializer.data)
 
+    def post(self, request, user_id):  # working todo maybe
+        serializer = TeamSerializer(data=request.data.copy())
+
+        if serializer.is_valid():
+            serializer.save()
+            result = TeamSerializer(Team.objects.get(pk=serializer.instance.id))
+            return Response(result.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # done
 class UserOccurrenceList(APIView):
     """List the occurrences of an User"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, user_id):  # working
         user = get_object_or_404(User, pk=user_id)
@@ -53,6 +73,8 @@ class UserOccurrenceList(APIView):
 # done
 class TeamList(APIView):
     """List all Teams"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     def get(self, request):  # working
         teams = Team.objects.all()
@@ -74,6 +96,8 @@ class TeamList(APIView):
 # done
 class TeamDetail(APIView):
     """List the details of a Team"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, team_id):  # working
         team = get_object_or_404(Team, pk=team_id)
@@ -97,6 +121,8 @@ class TeamDetail(APIView):
 # done
 class TeamOccurrencesList(APIView):
     """List all Occurrences for a specific Team"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, team_id):  # working
         team = get_object_or_404(Team, pk=team_id)
@@ -124,6 +150,8 @@ class TeamOccurrencesList(APIView):
 # done
 class OccurrenceList(APIView):
     """List all Occurrences"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     def get(self, request):  # working
         occurrences = Occurrence.objects.all()
@@ -135,6 +163,8 @@ class OccurrenceList(APIView):
 # done
 class OccurrenceDetails(APIView):
     """List the details of an Occurrence"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, occurrence_id):  # working
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
@@ -155,6 +185,8 @@ class OccurrenceDetails(APIView):
 # done
 class OccurrenceVictimsList(APIView):
     """List all victims of an Occurrence"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, occurrence_id):  # working
         occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
@@ -181,6 +213,8 @@ class OccurrenceVictimsList(APIView):
 # done
 class OccurrenceStateList(APIView):
     """List all States of an Occurrence"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, occurrence_id):  # working
         occurrence = Occurrence.objects.get(pk=occurrence_id)
@@ -208,6 +242,8 @@ class OccurrenceStateList(APIView):
 # done
 class VictimDetails(APIView):
     """List the details of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -230,6 +266,8 @@ class VictimDetails(APIView):
 # done
 class VictimPharmacyList(APIView):
     """List the pharmacies of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -255,6 +293,8 @@ class VictimPharmacyList(APIView):
 # done
 class VictimPharmacyDetail(APIView):
     """List the details of a pharmacies of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, victim_id, pharmacy_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -267,6 +307,8 @@ class VictimPharmacyDetail(APIView):
 # done
 class VictimEvaluationList(APIView):
     """List the evaluations of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -292,6 +334,8 @@ class VictimEvaluationList(APIView):
 # done
 class VictimEvaluationDetail(APIView):
     """List the details of an evaluation of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, victim_id, evaluation_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -304,6 +348,8 @@ class VictimEvaluationDetail(APIView):
 # done
 class VictimSymptomList(APIView):
     """List the Symptons of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -334,6 +380,8 @@ class VictimSymptomList(APIView):
 # done
 class VictimProcedureRCPList(APIView):
     """List the RCP Procedures of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -364,6 +412,8 @@ class VictimProcedureRCPList(APIView):
 # done
 class VictimProcedureVentilationList(APIView):
     """List the Ventilation Procedures of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -394,6 +444,8 @@ class VictimProcedureVentilationList(APIView):
 # done
 class VictimProcedureProtocolList(APIView):
     """List the Protocol Procedures of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -424,6 +476,8 @@ class VictimProcedureProtocolList(APIView):
 # done
 class VictimProcedureCirculationList(APIView):
     """List the Circulation Procedures of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -454,6 +508,8 @@ class VictimProcedureCirculationList(APIView):
 # done
 class VictimProcedureScaleList(APIView):
     """List the Scale Procedures of a Victim"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, victim_id):  # working
         victim = get_object_or_404(Victim, pk=victim_id)
@@ -483,6 +539,8 @@ class VictimProcedureScaleList(APIView):
 
 class TypeOfTransportList(APIView):
     """List all Type of transports"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         transports_type = TypeOfTransport.objects.all()
@@ -493,6 +551,8 @@ class TypeOfTransportList(APIView):
 
 class NonTransportReasonList(APIView):
     """List all non transport reasons"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         non_transport_reason = NonTransportReason.objects.all()
@@ -503,6 +563,8 @@ class NonTransportReasonList(APIView):
 
 class StateList(APIView):
     """List all States"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         states = State.objects.all()

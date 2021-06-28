@@ -1,10 +1,13 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 
 from .views_api import *
 from .views_web import *
 
 urlpatterns = [
     # API
+    path('api/token/', obtain_auth_token),
+
     path('api/users/', UserList.as_view(), name="user_list"),  # admin only?
     path('api/users/<int:user_id>/', UserDetail.as_view(), name="user_detail"),
     path('api/users/<int:user_id>/teams/', UserTeamList.as_view(), name="user_team_list"),

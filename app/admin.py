@@ -1,8 +1,23 @@
 from django.contrib import admin
+from rest_framework.authtoken.admin import TokenAdmin
+from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
+
 
 from .models import *
 
+
 admin.site.site_header = "Sireph Administrator Page"
+
+
+TokenAdmin.raw_id_fields = ['user']
+
+
+class TokenInline(admin.StackedInline):
+    model = Token
+
+
+class UserAdmin(AuthUserAdmin):
+    inlines = [TokenInline]
 
 
 class TeamTechnicianInline(admin.TabularInline):
@@ -70,6 +85,8 @@ class TeamAdmin(admin.ModelAdmin):
     ]
 
 
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Victim, VictimAdmin)
 admin.site.register(Occurrence, OccurrenceAdmin)
 admin.site.register(State)
