@@ -346,7 +346,7 @@ class VictimEvaluationDetail(APIView):
 
 
 # done
-class VictimSymptomList(APIView):
+class VictimSymptom(APIView):
     """List the Symptons of a Victim"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -378,7 +378,7 @@ class VictimSymptomList(APIView):
 
 
 # done
-class VictimProcedureRCPList(APIView):
+class VictimProcedureRCP(APIView):
     """List the RCP Procedures of a Victim"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -410,7 +410,7 @@ class VictimProcedureRCPList(APIView):
 
 
 # done
-class VictimProcedureVentilationList(APIView):
+class VictimProcedureVentilation(APIView):
     """List the Ventilation Procedures of a Victim"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -442,7 +442,7 @@ class VictimProcedureVentilationList(APIView):
 
 
 # done
-class VictimProcedureProtocolList(APIView):
+class VictimProcedureProtocol(APIView):
     """List the Protocol Procedures of a Victim"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -474,7 +474,7 @@ class VictimProcedureProtocolList(APIView):
 
 
 # done
-class VictimProcedureCirculationList(APIView):
+class VictimProcedureCirculation(APIView):
     """List the Circulation Procedures of a Victim"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -506,7 +506,7 @@ class VictimProcedureCirculationList(APIView):
 
 
 # done
-class VictimProcedureScaleList(APIView):
+class VictimProcedureScale(APIView):
     """List the Scale Procedures of a Victim"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
