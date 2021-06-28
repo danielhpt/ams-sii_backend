@@ -132,4 +132,5 @@ REST_FRAMEWORK = {
     )
 }
 
-LOGIN_REDIRECT_URL = '/admin/'  # todo redirect
+LOGIN_REDIRECT_URL = '/web/'  # todo redirect
+LOGOUT_REDIRECT_URL = '/accounts/login/'
