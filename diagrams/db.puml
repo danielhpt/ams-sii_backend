@@ -103,9 +103,9 @@ entity Evaluation {
     *hours DateTime
     *AVDS int
     *ventilation int
-    *Sp02 int
+    *SpO2 int
     *O2_supply int
-    *EtC02 int
+    *EtCO2 int
     *pulse int
     *ecg Boolean
     *skin Text
