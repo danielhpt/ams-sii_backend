@@ -16,6 +16,8 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 class Team(models.Model):
     def __str__(self):
+        if self.team_technicians.filter(team_leader=True)[0]:
+            return str(self.id) + ' - ' + self.team_technicians.filter(team_leader=True)[0].technician.get_username()
         return str(self.id)
 
 
@@ -39,7 +41,15 @@ class TeamTechnician(models.Model):
     )
 
     def __str__(self):
-        return self.team.__str__() + self.technician.get_username() + str(self.active) + str(self.team_leader)
+        if self.active:
+            active = ' active: 1'
+        else:
+            active = ' active: 0'
+        if self.team_leader:
+            team_leader = ' leader: 1'
+        else:
+            team_leader = ' leader: 0'
+        return str(self.team.id) + ' - ' + self.technician.get_username() + active + team_leader
 
 
 class Occurrence(models.Model):
@@ -58,7 +68,7 @@ class Occurrence(models.Model):
     )
 
     def __str__(self):
-        return str(self.id) + '' + str(self.occurrence_number)
+        return str(self.id) + ' - ' + str(self.occurrence_number)
 
 
 class State(models.Model):
@@ -86,7 +96,7 @@ class OccurrenceState(models.Model):
     models.UniqueConstraint(fields=['occurrence', 'state'], name='unique2')
 
     def __str__(self):
-        return str(self.occurrence.id) + self.state.state
+        return str(self.occurrence.id) + ' - ' + self.state.state
 
 
 class TypeOfTransport(models.Model):
@@ -143,7 +153,9 @@ class Victim(models.Model):
     )
 
     def __str__(self):
-        return str(self.id) + '-' + self.name
+        if self.name:
+            return str(self.id) + ' - ' + self.name
+        return str(self.id)
 
 
 class Pharmacy(models.Model):
@@ -153,7 +165,7 @@ class Pharmacy(models.Model):
         related_name="pharmacies"
     )
     time = models.TimeField(null=True, blank=True)
-    pharmacy = models.CharField(max_length=50, null=True, blank=True)
+    pharmacy = models.CharField(max_length=50)
     dose = models.CharField(max_length=50, null=True, blank=True)
     route = models.CharField(max_length=50, null=True, blank=True)
     adverse_effect = models.CharField(max_length=50, null=True, blank=True)
@@ -162,7 +174,7 @@ class Pharmacy(models.Model):
         verbose_name_plural = "Pharmacies"
 
     def __str__(self):
-        return self.pharmacy + '' + str(self.victim.id)
+        return str(self.victim.id) + ' - ' + self.pharmacy
 
 
 class ProcedureScale(models.Model):
@@ -198,7 +210,7 @@ class ProcedureCirculation(models.Model):
     ecg = models.BooleanField()
 
     def __str__(self):
-        return str(self.victim.id) + '- Circulation procedures'
+        return str(self.victim.id) + ' - Circulation procedures'
 
 
 class Evaluation(models.Model):
@@ -225,7 +237,7 @@ class Evaluation(models.Model):
     news = models.PositiveSmallIntegerField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.victim.id) + '' + str(self.hours)
+        return str(self.victim.id) + ' - ' + str(self.hours)
 
 
 class Symptom(models.Model):
@@ -239,7 +251,7 @@ class Symptom(models.Model):
     image_path = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return str(self.victim.id) + '- Symptoms'
+        return str(self.victim.id) + ' - Symptoms'
 
 
 class ProcedureRCP(models.Model):
@@ -259,7 +271,7 @@ class ProcedureRCP(models.Model):
     )
 
     def __str__(self):
-        return str(self.victim.id) + '- RCP procedures'
+        return str(self.victim.id) + ' - RCP procedures'
 
 
 class ProcedureVentilation(models.Model):
@@ -278,7 +290,7 @@ class ProcedureVentilation(models.Model):
     cpap = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.victim.id) + '- Ventilation procedures'
+        return str(self.victim.id) + ' - Ventilation procedures'
 
 
 class ProcedureProtocol(models.Model):
@@ -298,4 +310,4 @@ class ProcedureProtocol(models.Model):
     )
 
     def __str__(self):
-        return str(self.victim.id) + '- Protocol procedures'
+        return str(self.victim.id) + ' - Protocol procedures'
