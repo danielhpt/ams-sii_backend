@@ -148,9 +148,11 @@ class VictimSerializer(serializers.ModelSerializer):
         validated_data = self.data.serializer.initial_data
         del validated_data['id']
         if validated_data['type_of_transport']:
-            validated_data['type_of_transport'] = TypeOfTransport.objects.get(pk=validated_data['type_of_transport']['id'])
+            validated_data['type_of_transport'] = TypeOfTransport.objects.get(
+                pk=validated_data['type_of_transport']['id'])
         if validated_data['non_transport_reason']:
-            validated_data['non_transport_reason'] = NonTransportReason.objects.get(pk=validated_data['non_transport_reason']['id'])
+            validated_data['non_transport_reason'] = NonTransportReason.objects.get(
+                pk=validated_data['non_transport_reason']['id'])
         victim = Victim.objects.create(**validated_data)
         return victim
 
@@ -245,7 +247,6 @@ class EvaluationDetailSerializer(serializers.ModelSerializer):
 
 
 class SymptomSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Symptom
         fields = ['comments', 'image_path']

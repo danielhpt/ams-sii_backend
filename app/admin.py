@@ -1,13 +1,10 @@
 from django.contrib import admin
-from rest_framework.authtoken.admin import TokenAdmin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
-
+from rest_framework.authtoken.admin import TokenAdmin
 
 from .models import *
 
-
 admin.site.site_header = "Sireph Administrator Page"
-
 
 TokenAdmin.raw_id_fields = ['user']
 
