@@ -4,7 +4,7 @@ from rest_framework.authtoken.admin import TokenAdmin
 
 from .models import *
 
-admin.site.site_header = "Sireph Administrator Page"
+admin.site.site_header = "SIREPH Administrator Page"
 
 TokenAdmin.raw_id_fields = ['user']
 

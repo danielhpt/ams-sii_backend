@@ -27,6 +27,8 @@ def occurrenceListByNumber(request, occurrence_number):
 
     occurrences = Occurrence.objects.filter(occurrence_number=occurrence_number)
 
+
+
     context = {
         'occurrences': occurrences,
         'user_id': request.user.id
@@ -39,6 +41,8 @@ def occurrenceListByNumber(request, occurrence_number):
 def occurrenceDetails(request, occurrence_id):
     if not request.user.is_authenticated:
         return redirect('login')
+
+    occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
     occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
