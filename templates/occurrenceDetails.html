@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}<h1>Occurrence Details</h1>{% endblock %}
+{% block title %}<h1>Detalhes de Ocorrência</h1>{% endblock %}
 {% block content %}
-    <h1>Id: {{ occurrence.id }} - Occurrence Number: {{ occurrence.occurrence_number }}</h1>
+    <h1>Id: {{ occurrence.id }} - Número de Ocorrência: {{ occurrence.occurrence_number }}</h1>
     <div class="col-sm-3">
         <ul class="list-group">
-            <li class="list-group-item"><b>Entity:</b> {{ occurrence.entity }}</li>
-            <li class="list-group-item"><b>Mean of Assistance:</b> {{ occurrence.mean_of_assistance }}</li>
-            <li class="list-group-item"><b>Motive:</b> {{ occurrence.motive }}</li>
+            <li class="list-group-item"><b>Entidade:</b> {{ occurrence.entity }}</li>
+            <li class="list-group-item"><b>Meio:</b> {{ occurrence.mean_of_assistance }}</li>
+            <li class="list-group-item"><b>Motivo</b> {{ occurrence.motive }}</li>
             <li class="list-group-item"><b>Local:</b> {{ occurrence.local }}</li>
-            <li class="list-group-item"><b>Parish:</b> {{ occurrence.parish }}</li>
-            <li class="list-group-item"><b>Municipality:</b> {{ occurrence.municipality }}</li>
-            <li class="list-group-item"><b>Victims:</b>
+            <li class="list-group-item"><b>Freguesia:</b> {{ occurrence.parish }}</li>
+            <li class="list-group-item"><b>Concelho:</b> {{ occurrence.municipality }}</li>
+            <li class="list-group-item"><b>Vítimas:</b>
                 <ul>
                     {% for victim in occurrence.victims.all %}
                         <a href="{% url 'victim_detail' victim.id %}"
                            class="list-group-item list-group-item-action"><b>Id:</b> {{ victim.id }} -
-                            <b>Name:</b> {{ victim.name }}</a>
+                            <b>Nome:</b> {{ victim.name }}</a>
                     {% endfor %}
                 </ul>
             </li>
