@@ -17,29 +17,29 @@
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li class="list-group-item"><b>Birthdate:</b> {{ victim.birthdate }}</li>
-                        <li class="list-group-item"><b>Age:</b> {{ victim.age }}</li>
-                        <li class="list-group-item"><b>Gender:</b> {{ victim.gender }}</li>
-                        <li class="list-group-item"><b>Identity Number:</b> {{ victim.identity_number }}</li>
-                        <li class="list-group-item"><b>Address:</b> {{ victim.address }}</li>
-                        <li class="list-group-item"><b>Circumstances:</b> {{ victim.circumstances }}</li>
-                        <li class="list-group-item"><b>Disease History:</b> {{ victim.disease_history }} </li>
-                        <li class="list-group-item"><b>Allergies:</b> {{ victim.allergies }}</li>
-                        <li class="list-group-item"><b>Last Meal:</b> {{ victim.last_meal }}</li>
-                        <li class="list-group-item"><b>Time of Last Meal:</b> {{ victim.last_meal_time }}</li>
-                        <li class="list-group-item"><b>Usual Medication:</b> {{ victim.usual_medication }}</li>
-                        <li class="list-group-item"><b>Risk Situation:</b>{{ victim.risk_situation }}</li>
-                        <li class="list-group-item"><b>Medical Followup:</b> {{ victim.medical_followup }}</li>
-                        <li class="list-group-item"><b>Health Unit Origin:</b> {{ victim.health_unit_origin }}</li>
-                        <li class="list-group-item"><b>Health Unit Destination:</b> {{ victim.health_unit_destination }}
+                        <li><b>Birthdate:</b> {{ victim.birthdate }}</li>
+                        <li><b>Age:</b> {{ victim.age }}</li>
+                        <li><b>Gender:</b> {{ victim.gender }}</li>
+                        <li><b>Identity Number:</b> {{ victim.identity_number }}</li>
+                        <li><b>Address:</b> {{ victim.address }}</li>
+                        <li><b>Circumstances:</b> {{ victim.circumstances }}</li>
+                        <li><b>Disease History:</b> {{ victim.disease_history }} </li>
+                        <li><b>Allergies:</b> {{ victim.allergies }}</li>
+                        <li><b>Last Meal:</b> {{ victim.last_meal }}</li>
+                        <li><b>Time of Last Meal:</b> {{ victim.last_meal_time }}</li>
+                        <li><b>Usual Medication:</b> {{ victim.usual_medication }}</li>
+                        <li><b>Risk Situation:</b>{{ victim.risk_situation }}</li>
+                        <li><b>Medical Followup:</b> {{ victim.medical_followup }}</li>
+                        <li><b>Health Unit Origin:</b> {{ victim.health_unit_origin }}</li>
+                        <li><b>Health Unit Destination:</b> {{ victim.health_unit_destination }}
                         </li>
-                        <li class="list-group-item"><b> Episode Number:</b> {{ victim.episode_number }}</li>
-                        <li class="list-group-item"><b>Comments:</b> {{ victim.comments }}</li>
-                        <li class="list-group-item"><b>Type of Emergency:</b>{{ victim.type_of_emergency }}</li>
-                        <li class="list-group-item"><b>Hora de SIV/SAV:</b>{{ victim.SIV_SAV }}</li>
-                        <li class="list-group-item"><b>Type of Transport:</b>{{ victim.type_of_transport }}</li>
-                        <li class="list-group-item"><b>Non Transport Reason:</b>{{ victim.non_transport_reason }}</li>
-                        <li class="list-group-item"><b>Occurrence:</b><a
+                        <li><b> Episode Number:</b> {{ victim.episode_number }}</li>
+                        <li><b>Comments:</b> {{ victim.comments }}</li>
+                        <li><b>Type of Emergency:</b>{{ victim.type_of_emergency }}</li>
+                        <li><b>Hora de SIV/SAV:</b>{{ victim.SIV_SAV }}</li>
+                        <li><b>Type of Transport:</b>{{ victim.type_of_transport }}</li>
+                        <li><b>Non Transport Reason:</b>{{ victim.non_transport_reason }}</li>
+                        <li><b>Occurrence:</b><a
                                 href="{% url 'occurrence_detail' victim.occurrence.id %}">{{ victim.occurrence.id }}</a>
                         </li>
                     </ul>
@@ -59,30 +59,49 @@
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <ul class="list-group">{% for evaluation in victim.evaluations.all %}
 
-                        <li class="list-group-item"><b>Hours:</b>{{ evaluation.hours }}</li>
-                        <li class="list-group-item"><b>Ventilation:</b>{{ evaluation.ventilation }}</li>
-                        <li class="list-group-item"><b>SPO2:</b>{{ evaluation.spo2 }}</li>
-                        <li class="list-group-item"><b>O2:</b>{{ evaluation.O2 }}</li>
-                        <li class="list-group-item"><b>ETCO2:</b>{{ evaluation.etco2 }}</li>
-                        <li class="list-group-item"><b>Pulse:</b>{{ evaluation.pulse }}</li>
-                        <li class="list-group-item"><b>ECG:</b>{{ evaluation.ecg }}</li>
-                        <li class="list-group-item"><b>Skin:</b>{{ evaluation.skin }}</li>
-                        <li class="list-group-item"><b>Temperature:</b>{{ evaluation.temperature }}</li>
-                        <li class="list-group-item"><b>Systolic Blood
-                            Pressure:</b>{{ evaluation.systolic_blood_pressure }}</li>
-                        <li class="list-group-item"><b>Diastolic Blood
-                            Pressure</b>{{ evaluation.diastolic_blood_pressure }}
-                        </li>
-                        <li class="list-group-item"><b>Pupils:</b>{{ evaluation.pupils }}</li>
-                        <li class="list-group-item"><b>Pain:</b>{{ evaluation.pain }}</li>
-                        <li class="list-group-item"><b>Glycemia:</b>{{ evaluation.glycemia }}</li>
-                        <li class="list-group-item"><b>NEWS:</b>{{ evaluation.news }}</li>
-
-                    {% endfor %}
-
-                    </ul>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><b>Hours</b>
+                            <th><b>Ventilation</b>
+                            <th><b>SPO2</b></th>
+                            <th><b>O2</b></th>
+                            <th><b>ETCO2</b></th>
+                            <th><b>Pulse</b></th>
+                            <th><b>ECG</b></th>
+                            <th><b>Skin</b></th>
+                            <th><b>Temperature</b></th>
+                            <th><b>Systolic Blood Pressure</b></th>
+                            <th><b>Diastolic Blood Pressure</b></th>
+                            <th><b>Pupils</b></th>
+                            <th><b>Pain</b></th>
+                            <th><b>Glycemia</b></th>
+                            <th><b>NEWS</b></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for evaluation in victim.evaluations.all %}
+                            <tr>
+                                <td>{{ evaluation.hours }} </td>
+                                <td>{{ evaluation.ventilation }}</td>
+                                <td>{{ evaluation.spo2 }}</td>
+                                <td>{{ evaluation.o2 }}
+                                <td>{{ evaluation.etco2 }} </td>
+                                <td>{{ evaluation.pulse }}</td>
+                                <td>{{ evaluation.ecg }}</td>
+                                <td>{{ evaluation.skin }}</td>
+                                <td>{{ evaluation.temperature }}</td>
+                                <td>{{ evaluation.systolic_blood_pressure }}</td>
+                                <td>{{ evaluation.diastolic_blood_pressure }}</td>
+                                <td>{{ evaluation.pupils }}</td>
+                                <td>{{ evaluation.pain }}</td>
+                                <td>{{ evaluation.glycemia }}</td>
+                                <td>{{ evaluation.news }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -97,8 +116,8 @@
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li class="list-group-item"><b>Comments:</b>{{ victim.symptom.comments }}</li>
-                        <li class="list-group-item"><b>Image Path:</b>{{ victim.symptom.image_path }}</li>
+                        <li><b>Comments:</b>{{ victim.symptom.comments }}</li>
+                        <li><b>Image Path:</b>{{ victim.symptom.image_path }}</li>
                     </ul>
                 </div>
             </div>
@@ -114,17 +133,17 @@
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li class="list-group-item"><b>Witnessed:</b>{{ victim.procedure_rcp.witnessed }}</li>
-                        <li class="list-group-item"><b>SBV/DAE:</b>{{ victim.procedure_rcp.SBV_DAE }}</li>
-                        <li class="list-group-item"><b>1st Rhythm:</b>{{ victim.procedure_rcp.first_rhythm }}
+                        <li><b>Witnessed:</b>{{ victim.procedure_rcp.witnessed }}</li>
+                        <li><b>SBV/DAE:</b>{{ victim.procedure_rcp.SBV_DAE }}</li>
+                        <li><b>1st Rhythm:</b>{{ victim.procedure_rcp.first_rhythm }}
                         </li>
-                        <li class="list-group-item"><b>Number of Shocks:</b>{{ victim.procedure_rcp.nr_shocks }}
+                        <li><b>Number of Shocks:</b>{{ victim.procedure_rcp.nr_shocks }}
                         </li>
-                        <li class="list-group-item"><b>Recovery:</b>{{ victim.procedure_rcp.recovery }}</li>
-                        <li class="list-group-item"><b>Downtime:</b>{{ victim.procedure_rcp.downtime }}</li>
-                        <li class="list-group-item"><b>Mechanical
+                        <li><b>Recovery:</b>{{ victim.procedure_rcp.recovery }}</li>
+                        <li><b>Downtime:</b>{{ victim.procedure_rcp.downtime }}</li>
+                        <li><b>Mechanical
                             Compressions:</b>{{ victim.procedure_rcp.mechanical_compressions }}</li>
-                        <li class="list-group-item"><b>Performed:</b>{{ victim.procedure_rcp.performed }}</li>
+                        <li><b>Performed:</b>{{ victim.procedure_rcp.performed }}</li>
                     </ul>
                 </div>
             </div>
@@ -142,21 +161,21 @@
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li class="list-group-item">
+                        <li>
                             <b>Clearance:</b>{{ victim.procedure_ventilation.clearance }}</li>
-                        <li class="list-group-item"><b>Oropharyngeal
+                        <li><b>Oropharyngeal
                             Tube:</b>{{ victim.procedure_ventilation.oropharyngeal }}
                         </li>
-                        <li class="list-group-item"><b>Laryngeal
+                        <li><b>Laryngeal
                             Tube:</b>{{ victim.procedure_ventilation.laryngeal_tube }}</li>
-                        <li class="list-group-item"><b>Endotracheal
+                        <li><b>Endotracheal
                             Tube:</b>{{ victim.procedure_ventilation.endotracheal }}
                         </li>
-                        <li class="list-group-item"><b>Laryngeal
+                        <li><b>Laryngeal
                             Mask:</b>{{ victim.procedure_ventilation.laryngeal_mask }}</li>
-                        <li class="list-group-item"><b>Mechanical
+                        <li><b>Mechanical
                             Ventilation:</b>{{ victim.procedure_ventilation.mechanical_ventilation }}</li>
-                        <li class="list-group-item"><b>CPAP:</b>{{ victim.procedure_ventilation.cpap }}</li>
+                        <li><b>CPAP:</b>{{ victim.procedure_ventilation.cpap }}</li>
                     </ul>
                 </div>
             </div>
@@ -176,22 +195,22 @@
                 <div class="accordion-body">
 
                     <ul class="list-group">
-                        <li class="list-group-item"><b>Temperature
+                        <li><b>Temperature
                             Monitoring:</b>{{ victim.procedure_circulation.temperature_monitoring }}
                         </li>
-                        <li class="list-group-item">
+                        <li>
                             <b>Compression:</b>{{ victim.procedure_circulation.compression }}
                         </li>
-                        <li class="list-group-item">
+                        <li>
                             <b>Tourniquet:</b>{{ victim.procedure_circulation.tourniquet }}</li>
-                        <li class="list-group-item"><b>Pelvic
+                        <li><b>Pelvic
                             Belt:</b>{{ victim.procedure_circulation.pelvic_belt }}
                         </li>
-                        <li class="list-group-item"><b>Venous
+                        <li><b>Venous
                             Access:</b>{{ victim.procedure_circulation.venous_access }}</li>
-                        <li class="list-group-item">
+                        <li>
                             <b>Patch:</b>{{ victim.procedure_circulation.patch }}</li>
-                        <li class="list-group-item"><b>ECG:</b>{{ victim.procedure_circulation.ecg }}
+                        <li><b>ECG:</b>{{ victim.procedure_circulation.ecg }}
                         </li>
                     </ul>
                 </div>
@@ -212,20 +231,20 @@
                 <div class="accordion-body">
 
                     <ul class="list-group">
-                        <li class="list-group-item">
+                        <li>
                             <b>Immobilization:</b>{{ victim.procedure_protocol.immobilization }}
                         </li>
-                        <li class="list-group-item"><b>TEPH:</b>{{ victim.procedure_protocol.TEPH }}
+                        <li><b>TEPH:</b>{{ victim.procedure_protocol.TEPH }}
                         </li>
-                        <li class="list-group-item"><b>SIV</b>{{ victim.procedure_protocol.SIV }}
+                        <li><b>SIV</b>{{ victim.procedure_protocol.SIV }}
                         </li>
-                        <li class="list-group-item"><b>VV
+                        <li><b>VV
                             AVC:</b>{{ victim.procedure_protocol.VV_AVC }}</li>
-                        <li class="list-group-item"><b>VV
+                        <li><b>VV
                             Coronary:</b>{{ victim.procedure_protocol.VV_coronary }}</li>
-                        <li class="list-group-item"><b>VV
+                        <li><b>VV
                             Trauma:</b>{{ victim.procedure_protocol.vv_trauma }}</li>
-                        <li class="list-group-item"><b>VV
+                        <li><b>VV
                             PCR:</b>{{ victim.procedure_protocol.VV_PCR }}</li>
                     </ul>
                 </div>
@@ -248,15 +267,15 @@
                 <div class="accordion-body">
 
                     <ul class="list-group">
-                        <li class="list-group-item">
+                        <li>
                             <b>Cincinatti:</b>{{ victim.procedure_scale.cincinatti }}</li>
-                        <li class="list-group-item">
+                        <li>
                             <b>PROACS:</b>{{ victim.procedure_scale.PROACS }}</li>
-                        <li class="list-group-item"><b>RTS:</b>{{ victim.procedure_scale.RTS }}
+                        <li><b>RTS:</b>{{ victim.procedure_scale.RTS }}
                         </li>
-                        <li class="list-group-item">
+                        <li>
                             <b>MGAP:</b>{{ victim.procedure_scale.MGAP }}</li>
-                        <li class="list-group-item">
+                        <li>
                             <b>RACE:</b>{{ victim.procedure_scale.RACE }}</li>
                     </ul>
                 </div>
@@ -278,17 +297,26 @@
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
 
-                    <ul class="list-group">{% for pharmacy in victim.pharmacies.all %}
-
-                        <li class="list-group-item"><b>Time:</b>{{ pharmacy.time }}</li>
-                        <li class="list-group-item"><b>Pharmacy:</b>{{ pharmacy.pharmacy }}
-                        </li>
-                        <li class="list-group-item"><b>Dose:</b>{{ pharmacy.dose }}</li>
-                        <li class="list-group-item"><b>Route:</b>{{ pharmacy.route }}</li>
-                        <li class="list-group-item"><b>Adverse
-                            Effect:</b>{{ pharmacy.adverse_effect }}</li>
-                    {% endfor %}
-                    </ul>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><b>Time</b></th>
+                            <th><b>Pharmacy</b></th>
+                            <th><b>Dose</b></th>
+                            <th><b>Route</b></th>
+                            <th><b>Adverse Effect</b></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for pharmacy in victim.pharmacies.all %}
+                            <td>{{ pharmacy.time }} </td>
+                            <td>{{ pharmacy.pharmacy }}</td>
+                            <td>{{ pharmacy.dose }}</td>
+                            <td>{{ pharmacy.adverse_effect }}
+                            </td>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
