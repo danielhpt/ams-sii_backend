@@ -2,45 +2,50 @@
 
 {% block title %}<h1>Victim Details</h1>{% endblock %}
 {% block content %}
-    <h1>Victim Details</h1>
-    <h1>Id: {{ victim.id }} - Name: {{ victim.name }}</h1>
+    <h1>Detalhes da Vítima</h1>
+    <h1>Id: {{ victim.id }} - Nome: {{ victim.name }}</h1>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseHeader" aria-expanded="true" aria-controls="CollapseHeader">
-                    Victim Information
+                    Informação da Vítima
                 </button>
             </h2>
 
-            <div id="collapseHeader" class="accordion-collapse show" aria-labelledby="headingHeader"
-                 data-bs-parent="#accordionExample">
+            <div id="collapseHeader" class="accordion-collapse collapse show" aria-labelledby="headingHeader">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li><b>Birthdate:</b> {{ victim.birthdate }}</li>
-                        <li><b>Age:</b> {{ victim.age }}</li>
-                        <li><b>Gender:</b> {{ victim.gender }}</li>
-                        <li><b>Identity Number:</b> {{ victim.identity_number }}</li>
-                        <li><b>Address:</b> {{ victim.address }}</li>
-                        <li><b>Circumstances:</b> {{ victim.circumstances }}</li>
-                        <li><b>Disease History:</b> {{ victim.disease_history }} </li>
-                        <li><b>Allergies:</b> {{ victim.allergies }}</li>
-                        <li><b>Last Meal:</b> {{ victim.last_meal }}</li>
-                        <li><b>Time of Last Meal:</b> {{ victim.last_meal_time }}</li>
-                        <li><b>Usual Medication:</b> {{ victim.usual_medication }}</li>
-                        <li><b>Risk Situation:</b>{{ victim.risk_situation }}</li>
-                        <li><b>Medical Followup:</b> {{ victim.medical_followup }}</li>
-                        <li><b>Health Unit Origin:</b> {{ victim.health_unit_origin }}</li>
-                        <li><b>Health Unit Destination:</b> {{ victim.health_unit_destination }}
+                        <li class="list-group-item"><b>Data de Nascimento:</b> {{ victim.birthdate }}</li>
+                        <li class="list-group-item"><b>Idade:</b> {{ victim.age }}</li>
+                        <li class="list-group-item"><b>Género:</b> {{ victim.gender }}</li>
+                        <li class="list-group-item"><b>Número de Identificação:</b> {{ victim.identity_number }}</li>
+                        <li class="list-group-item"><b>Morada:</b> {{ victim.address }}</li>
+                        <li class="list-group-item"><b>Circunstâncias</b> {{ victim.circumstances }}</li>
+                        <li class="list-group-item"><b>Histórico de doenças:</b> {{ victim.disease_history }} </li>
+                        <li class="list-group-item"><b>Alergias:</b> {{ victim.allergies }}</li>
+                        <li class="list-group-item"><b>Última Refeição:</b> {{ victim.last_meal }}</li>
+                        <li class="list-group-item"><b>Hora da última refeição:</b> {{ victim.last_meal_time }}</li>
+                        <li class="list-group-item"><b>Medicação habitual:</b> {{ victim.usual_medication }}</li>
+                        <li class="list-group-item"><b>Situação de risco:</b>{{ victim.risk_situation }}</li>
+                        <li class="list-group-item"><b>Seguimento médico:</b>
+                            {% if victim.medical_followup %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b> Episode Number:</b> {{ victim.episode_number }}</li>
-                        <li><b>Comments:</b> {{ victim.comments }}</li>
-                        <li><b>Type of Emergency:</b>{{ victim.type_of_emergency }}</li>
-                        <li><b>Hora de SIV/SAV:</b>{{ victim.SIV_SAV }}</li>
-                        <li><b>Type of Transport:</b>{{ victim.type_of_transport }}</li>
-                        <li><b>Non Transport Reason:</b>{{ victim.non_transport_reason }}</li>
-                        <li><b>Occurrence:</b><a
-                                href="{% url 'occurrence_detail' victim.occurrence.id %}">{{ victim.occurrence.id }}</a>
+                        <li class="list-group-item"><b>Unidade de saúde de origem</b> {{ victim.health_unit_origin }}</li>
+                        <li class="list-group-item"><b>Unidade de saúde de destino</b> {{ victim.health_unit_destination }}
+                        </li>
+                        <li class="list-group-item"><b>Nº Episódio:</b> {{ victim.episode_number }}</li>
+                        <li class="list-group-item"><b>Comentários:</b> {{ victim.comments }}</li>
+                        <li class="list-group-item"><b>Tipo de emergência</b>{{ victim.type_of_emergency }}</li>
+                        <li class="list-group-item"><b>Hora de SIV/SAV:</b>{{ victim.SIV_SAV }}</li>
+                        <li class="list-group-item"><b>Tipo de transporte</b>{{ victim.type_of_transport }}</li>
+                        <li class="list-group-item"><b>Razão de não Transporte</b>{{ victim.non_transport_reason }}</li>
+                        <li class="list-group-item"><b>Ocurrência:</b><a
+                                href="{% url 'occurrence_detail' victim.occurrence.id %}"> {{ victim.occurrence.id }}</a>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +57,7 @@
             <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="false" aria-controls="CollapseOne">
-                    Victim Evaluations
+                    Avaliação da Vítima
                 </button>
             </h2>
 
@@ -60,44 +65,49 @@
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
 
-                    <table>
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th><b>Hours</b>
-                            <th><b>Ventilation</b>
-                            <th><b>SPO2</b></th>
-                            <th><b>O2</b></th>
-                            <th><b>ETCO2</b></th>
-                            <th><b>Pulse</b></th>
-                            <th><b>ECG</b></th>
-                            <th><b>Skin</b></th>
-                            <th><b>Temperature</b></th>
-                            <th><b>Systolic Blood Pressure</b></th>
-                            <th><b>Diastolic Blood Pressure</b></th>
-                            <th><b>Pupils</b></th>
-                            <th><b>Pain</b></th>
-                            <th><b>Glycemia</b></th>
-                            <th><b>NEWS</b></th>
+                            <th scope="col"><b>Hora</b> (hh:mm)</th>
+                            <th scope="col"><b>AVDS</b> (GCS)</th>
+                            <th scope="col"><b>Ventilação</b> (cpm)</th>
+                            <th scope="col"><b>SPO2</b> (%)</th>
+                            <th scope="col"><b>O2</b> (l/min)</th>
+                            <th scope="col"><b>ETCO2</b> (mmHg)</th>
+                            <th scope="col"><b>Pulse</b> (bpm)</th>
+                            <th scope="col"><b>ECG</b></th>
+                            <th scope="col"><b>Pele</b></th>
+                            <th scope="col"><b>Temperatura</b> (ºC)</th>
+                            <th scope="col"><b>Pressão Arterial Sistólica</b></th>
+                            <th scope="col"><b>Pressão Arterial Diastólica</b></th>
+                            <th scope="col"><b>Pupilas</b></th>
+                            <th scope="col"><b>Dor</b> (0-10)</th>
+                            <th scope="col"><b>Glicemia</b> (mg/dl)</th>
+                            <th scope="col"><b>NEWS</b> (0-18)</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for evaluation in victim.evaluations.all %}
                             <tr>
-                                <td>{{ evaluation.hours }} </td>
-                                <td>{{ evaluation.ventilation }}</td>
-                                <td>{{ evaluation.spo2 }}</td>
-                                <td>{{ evaluation.o2 }}
-                                <td>{{ evaluation.etco2 }} </td>
-                                <td>{{ evaluation.pulse }}</td>
-                                <td>{{ evaluation.ecg }}</td>
-                                <td>{{ evaluation.skin }}</td>
-                                <td>{{ evaluation.temperature }}</td>
-                                <td>{{ evaluation.systolic_blood_pressure }}</td>
-                                <td>{{ evaluation.diastolic_blood_pressure }}</td>
-                                <td>{{ evaluation.pupils }}</td>
-                                <td>{{ evaluation.pain }}</td>
-                                <td>{{ evaluation.glycemia }}</td>
-                                <td>{{ evaluation.news }}</td>
+                                <td scope="row">{{ evaluation.hours }} </td>
+                                <td scope="row">{{ evaluation.ventilation }}</td>
+                                <td scope="row">{{ evaluation.spo2 }}</td>
+                                <td scope="row">{{ evaluation.o2 }}
+                                <td scope="row">{{ evaluation.etco2 }} </td>
+                                <td scope="row">{{ evaluation.pulse }}</td>
+                                {% if evaluation.ecg %}
+                                    <td scope="row">Sim</td>
+                                {% else %}
+                                    <td scope="row">Não</td>
+                                {% endif %}
+                                <td scope="row">{{ evaluation.skin }}</td>
+                                <td scope="row">{{ evaluation.temperature }}</td>
+                                <td scope="row">{{ evaluation.systolic_blood_pressure }}</td>
+                                <td scope="row">{{ evaluation.diastolic_blood_pressure }}</td>
+                                <td scope="row">{{ evaluation.pupils }}</td>
+                                <td scope="row">{{ evaluation.pain }}</td>
+                                <td scope="row">{{ evaluation.glycemia }}</td>
+                                <td scope="row">{{ evaluation.news }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -109,15 +119,15 @@
             <h2 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="CollapseTwo">
-                    Victim Symptoms
+                    Sintomas da Vítima
                 </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li><b>Comments:</b>{{ victim.symptom.comments }}</li>
-                        <li><b>Image Path:</b>{{ victim.symptom.image_path }}</li>
+                        <li class="list-group-item"><b>Comentários:</b> {{ victim.symptom.comments }}</li>
+                        <li class="list-group-item"><b>Imagem:</b> {{ victim.symptom.image_path }}</li>
                     </ul>
                 </div>
             </div>
@@ -126,24 +136,35 @@
             <h2 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree" aria-expanded="false" aria-controls="CollapseThree">
-                    Victim RCP Procedures
+                    Procedimentos RCP
                 </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li><b>Witnessed:</b>{{ victim.procedure_rcp.witnessed }}</li>
-                        <li><b>SBV/DAE:</b>{{ victim.procedure_rcp.SBV_DAE }}</li>
-                        <li><b>1st Rhythm:</b>{{ victim.procedure_rcp.first_rhythm }}
+                        <li class="list-group-item"><b>Presenciada:</b>
+                         {% if victim.procedure_rcp.witnessed %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b>Number of Shocks:</b>{{ victim.procedure_rcp.nr_shocks }}
+                        <li class="list-group-item"><b>SBV/DAE:</b> {{ victim.procedure_rcp.SBV_DAE }}</li>
+                        <li class="list-group-item"><b>1º Ritmo:</b> {{ victim.procedure_rcp.first_rhythm }}
                         </li>
-                        <li><b>Recovery:</b>{{ victim.procedure_rcp.recovery }}</li>
-                        <li><b>Downtime:</b>{{ victim.procedure_rcp.downtime }}</li>
-                        <li><b>Mechanical
-                            Compressions:</b>{{ victim.procedure_rcp.mechanical_compressions }}</li>
-                        <li><b>Performed:</b>{{ victim.procedure_rcp.performed }}</li>
+                        <li class="list-group-item"><b>Nº de Choque(s):</b> {{ victim.procedure_rcp.nr_shocks }}
+                        </li>
+                        <li class="list-group-item"><b>Recuperação:</b> {{ victim.procedure_rcp.recovery }}</li>
+                        <li class="list-group-item"><b>Suspensão:</b> {{ victim.procedure_rcp.downtime }}</li>
+                        <li class="list-group-item"><b>Compressões Mecânicas</b> {{ victim.procedure_rcp.mechanical_compressions }}</li>
+                        <li class="list-group-item"><b>Não realizado:</b>
+                          {% if victim.procedure_rcp.performed %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -153,7 +174,7 @@
             <h2 class="accordion-header" id="headingFour">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFour" aria-expanded="false" aria-controls="CollapseFour">
-                    Victim Ventilation Procedures
+                    Procedimentos de Ventilação
                 </button>
             </h2>
 
@@ -161,21 +182,58 @@
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group">
-                        <li>
-                            <b>Clearance:</b>{{ victim.procedure_ventilation.clearance }}</li>
-                        <li><b>Oropharyngeal
-                            Tube:</b>{{ victim.procedure_ventilation.oropharyngeal }}
+                        <li class="list-group-item">
+                            <b>Desobstrução:</b>
+                            {% if victim.procedure_ventilation.clearance %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b>Laryngeal
-                            Tube:</b>{{ victim.procedure_ventilation.laryngeal_tube }}</li>
-                        <li><b>Endotracheal
-                            Tube:</b>{{ victim.procedure_ventilation.endotracheal }}
+
+                        <li class="list-group-item"><b>Tubo Orofaríngeo:</b>
+                     {% if victim.procedure_ventilation.oropharyngeal %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b>Laryngeal
-                            Mask:</b>{{ victim.procedure_ventilation.laryngeal_mask }}</li>
-                        <li><b>Mechanical
-                            Ventilation:</b>{{ victim.procedure_ventilation.mechanical_ventilation }}</li>
-                        <li><b>CPAP:</b>{{ victim.procedure_ventilation.cpap }}</li>
+
+                        <li class="list-group-item"><b>Tubo Laríngeo:</b>
+                         {% if victim.procedure_ventilation.laryngeal_tube %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>Tubo Endotraqueal:</b>
+                             {% if victim.procedure_ventilation.endotracheal %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>Máscara laríngea:</b>
+                         {% if victim.procedure_ventilation.laryngeal_mask %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>Ventilação Mecânica:</b>
+                         {% if victim.procedure_ventilation.mechanical_ventilation %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>CPAP:</b>
+                         {% if victim.procedure_ventilation.cpap %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -186,7 +244,7 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFive" aria-expanded="false"
                         aria-controls="CollapseFive">
-                    Victim Circulation Procedures
+                    Procedimentos de Circulação
                 </button>
             </h2>
 
@@ -195,23 +253,62 @@
                 <div class="accordion-body">
 
                     <ul class="list-group">
-                        <li><b>Temperature
-                            Monitoring:</b>{{ victim.procedure_circulation.temperature_monitoring }}
+                        <li class="list-group-item"><b>Controlo Temperatura:</b>
+                            {% if victim.procedure_circulation.temperature_monitoring %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li>
-                            <b>Compression:</b>{{ victim.procedure_circulation.compression }}
+                        <li class="list-group-item">
+                            <b>Compressão:</b>
+                            {% if victim.procedure_circulation.compression %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li>
-                            <b>Tourniquet:</b>{{ victim.procedure_circulation.tourniquet }}</li>
-                        <li><b>Pelvic
-                            Belt:</b>{{ victim.procedure_circulation.pelvic_belt }}
+                        <li class="list-group-item">
+                            <b>Tourniquete:</b>
+                            {% if victim.procedure_circulation.tourniquet %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b>Venous
-                            Access:</b>{{ victim.procedure_circulation.venous_access }}</li>
-                        <li>
-                            <b>Patch:</b>{{ victim.procedure_circulation.patch }}</li>
-                        <li><b>ECG:</b>{{ victim.procedure_circulation.ecg }}
+
+                        <li class="list-group-item"><b>Cinto Pélvico:</b>
+                            {% if victim.procedure_circulation.pelvic_belt %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
+
+                        <li class="list-group-item"><b>Acesso Venoso:</b>
+                            {% if victim.procedure_circulation.venous_access %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            <b>Penso:</b>
+                            {% if victim.procedure_circulation.patch %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+
+                        <li class="list-group-item"><b>ECG:</b>
+                            {% if victim.procedure_circulation.ecg %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -222,7 +319,7 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseSix" aria-expanded="false"
                         aria-controls="CollapseSix">
-                    Victim Protocol Procedures
+                    Procedimentos de Protocolos
                 </button>
             </h2>
 
@@ -231,21 +328,63 @@
                 <div class="accordion-body">
 
                     <ul class="list-group">
-                        <li>
-                            <b>Immobilization:</b>{{ victim.procedure_protocol.immobilization }}
+                        <li class="list-group-item">
+                            <b>Imobilização:</b>
+                            {% if victim.procedure_protocol.immobilization %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b>TEPH:</b>{{ victim.procedure_protocol.TEPH }}
+                        <li class="list-group-item"><b>TEPH:</b>
+                            {% if victim.procedure_protocol.TEPH %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b>SIV</b>{{ victim.procedure_protocol.SIV }}
+                        <li class="list-group-item"><b>SIV:</b>
+                            {% if victim.procedure_protocol.SIV %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
                         </li>
-                        <li><b>VV
-                            AVC:</b>{{ victim.procedure_protocol.VV_AVC }}</li>
-                        <li><b>VV
-                            Coronary:</b>{{ victim.procedure_protocol.VV_coronary }}</li>
-                        <li><b>VV
-                            Trauma:</b>{{ victim.procedure_protocol.vv_trauma }}</li>
-                        <li><b>VV
-                            PCR:</b>{{ victim.procedure_protocol.VV_PCR }}</li>
+                        <li class="list-group-item"><b>VV AVC:</b>
+                            {% if victim.procedure_protocol.VV_AVC %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>VV Coronária:</b>
+                            {% if victim.procedure_protocol.VV_coronary %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>VV Sépsis:</b>
+                            {% if victim.procedure_protocol.VV_sepsis %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>VV Trauma:</b>
+                            {% if victim.procedure_protocol.VV_trauma %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item"><b>VV PCR:</b>
+                            {% if victim.procedure_protocol.VV_PCR %}
+                                Sim
+                            {% else %}
+                                Não
+                            {% endif %}
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -257,7 +396,7 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseSeven" aria-expanded="false"
                         aria-controls="CollapseSeven">
-                    Victim Scale Procedures
+                    Procedimentos de escalas
                 </button>
             </h2>
 
@@ -267,16 +406,16 @@
                 <div class="accordion-body">
 
                     <ul class="list-group">
-                        <li>
-                            <b>Cincinatti:</b>{{ victim.procedure_scale.cincinatti }}</li>
-                        <li>
-                            <b>PROACS:</b>{{ victim.procedure_scale.PROACS }}</li>
-                        <li><b>RTS:</b>{{ victim.procedure_scale.RTS }}
+                        <li class="list-group-item">
+                            <b>Cincinatti:</b> {{ victim.procedure_scale.cincinatti }}</li>
+                        <li class="list-group-item">
+                            <b>PROACS:</b> {{ victim.procedure_scale.PROACS }}</li>
+                        <li class="list-group-item"><b>RTS:</b> {{ victim.procedure_scale.RTS }}
                         </li>
-                        <li>
-                            <b>MGAP:</b>{{ victim.procedure_scale.MGAP }}</li>
-                        <li>
-                            <b>RACE:</b>{{ victim.procedure_scale.RACE }}</li>
+                        <li class="list-group-item">
+                            <b>MGAP:</b> {{ victim.procedure_scale.MGAP }}</li>
+                        <li class="list-group-item">
+                            <b>RACE:</b> {{ victim.procedure_scale.RACE }}</li>
                     </ul>
                 </div>
             </div>
@@ -288,7 +427,7 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseEight" aria-expanded="false"
                         aria-controls="CollapseEight">
-                    Victim Pharmacies
+                    Fármacos Aplicados
                 </button>
             </h2>
 
@@ -297,22 +436,22 @@
                  data-bs-parent="accordionExample">
                 <div class="accordion-body">
 
-                    <table>
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th><b>Time</b></th>
-                            <th><b>Pharmacy</b></th>
-                            <th><b>Dose</b></th>
-                            <th><b>Route</b></th>
-                            <th><b>Adverse Effect</b></th>
+                            <th scope="col"><b>Hora</b> (hh:mm)</th>
+                            <th scope="col"><b>Fármaco</b></th>
+                            <th scope="col"><b>Dose Aplicada</b></th>
+                            <th scope="col"><b>Via</b></th>
+                            <th scope="col"><b>Efeito Adverso</b></th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for pharmacy in victim.pharmacies.all %}
-                            <td>{{ pharmacy.time }} </td>
-                            <td>{{ pharmacy.pharmacy }}</td>
-                            <td>{{ pharmacy.dose }}</td>
-                            <td>{{ pharmacy.adverse_effect }}
+                            <td scope="row">{{ pharmacy.time }} </td>
+                            <td scope="row">{{ pharmacy.pharmacy }}</td>
+                            <td scope="row">{{ pharmacy.dose }}</td>
+                            <td scope="row">{{ pharmacy.adverse_effect }}
                             </td>
                         {% endfor %}
                         </tbody>
