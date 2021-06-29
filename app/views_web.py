@@ -1,7 +1,5 @@
-from django.shortcuts import get_object_or_404, HttpResponse, render, redirect
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.views import APIView, Response, status
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseForbidden
 
 from .serializers import *
 
@@ -30,8 +28,10 @@ def occurrenceListByNumber(request, occurrence_number):
 
 
 def occurrenceDetails(request, occurrence_id):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
     context = {
 
@@ -40,34 +40,13 @@ def occurrenceDetails(request, occurrence_id):
     return render(request, 'occurrenceDetails.html', context=context)
 
 
-def occurrenceVictimsList(request, occurrence_id):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    context = {
-
-    }
-
-    return render(request, 'occurrenceVictimsList.html', context=context)
-
-
-def occurrenceStateList(request, occurrence_id):
-    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    context = {
-
-    }
-
-    return render(request, 'occurrenceStateList.html', context=context)
-
-
 def victimDetails(request, victim_id):
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     context = {
-
+        'victim': victim,
+        'user_id': request.user.id
     }
 
     return render(request, 'victimDetails.html', context=context)

@@ -1,11 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Detail</title>
-</head>
-<body>
-<h1>{{ user. }}</h1>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}<h1>User Profile</h1>{% endblock %}
+{% block content %}
+    <h1>Id: {{ user.id }} - {{ user.username }} </h1>
+    <div class="col-sm-3">
+        <ul class="list-group">
+            <li class="list-group-item"><b>Primeiro Nome:</b> {{ user.first_name }}</li>
+            <li class="list-group-item"><b>Apelido:</b> {{ user.last_name }}</li>
+            <li class="list-group-item"><b>Email:</b> {{ user.email }}</li>
+        </ul>
+    </div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+{% endblock %}
