@@ -7,6 +7,18 @@ from .serializers import *
 
 
 # done
+class UserDetailByToken(APIView):
+    """List the details of an User"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):  # working
+        serializer = UserSimplifiedSerializer(request.user)
+
+        return Response(serializer.data)
+
+
+# done
 class UserList(APIView):
     """List all Users"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
