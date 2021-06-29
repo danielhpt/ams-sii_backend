@@ -5,22 +5,31 @@ from .serializers import *
 
 
 def userDetails(request, user_id):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.user.id != user_id:
+        return HttpResponseForbidden()
 
     user = get_object_or_404(User, pk=user_id)
-    context = {
-         'user': user
 
+    context = {
+        'user': user,
+        'user_id': request.user.id
     }
+
     return render(request, 'userDetails.html', context=context)
 
 
 def occurrenceListByNumber(request, occurrence_number):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    occurrences = Occurrence.objects.filter(occurrence_number=occurrence_number)
 
     context = {
+        'occurrences': occurrences,
+        'user_id': request.user.id
 
     }
 
@@ -34,6 +43,8 @@ def occurrenceDetails(request, occurrence_id):
     occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
     context = {
+        'occurrence': occurrence,
+        'user_id': request.user.id
 
     }
 
@@ -41,8 +52,10 @@ def occurrenceDetails(request, occurrence_id):
 
 
 def victimDetails(request, victim_id):
-    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    victim = get_object_or_404(Victim, pk=victim_id)
 
     context = {
         'victim': victim,
