@@ -8,6 +8,7 @@ urlpatterns = [
     path('token/', obtain_auth_token),
 
     path('user/', UserDetailByToken.as_view(), name="user_detail_by_token"),
+    path('user/<int:user_id>/', UserInactive.as_view(), name="user_inactive"),
 
     path('users/', UserList.as_view(), name="user_list"),  # admin only
     path('users/<int:user_id>/', UserDetail.as_view(), name="user_detail"),

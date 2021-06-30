@@ -20,6 +20,24 @@ class UserDetailByToken(APIView):
 
 
 # done
+class UserInactive(APIView):
+    """List the details of an User"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):  # working
+        user = get_object_or_404(User, pk=user_id)
+        actives = TeamTechnician.objects.filter(technician=user, active=True)
+
+        if len(actives) > 0:
+            return HttpResponseNotFound()
+
+        serializer = UserSimplifiedSerializer(user)
+
+        return Response(serializer.data)
+
+
+# done
 class UserList(APIView):
     """List all Users"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
