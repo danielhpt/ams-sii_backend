@@ -3,8 +3,6 @@ import os
 from pathlib import Path
 
 
-PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -71,7 +69,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'settings/static')
 STATIC_URL = '/static/'
 
 # Default primary key field type
