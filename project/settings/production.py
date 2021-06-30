@@ -88,7 +88,7 @@ REST_FRAMEWORK = {
     )
 }
 
-LOGIN_REDIRECT_URL = '/web/'  # todo redirect
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # SECURITY WARNING: keep the secret key used in production secret!

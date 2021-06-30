@@ -48,7 +48,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
         for ttOld in teamTechniciansOld:
             for ttNew in teamTechniciansNew:
-                if ttOld.id == ttNew['id']:
+                if ttOld.technician_id == ttNew['id']:
                     if ttNew['active'] is not None:
                         ttOld.active = ttNew['active']
             ttOld.save()
