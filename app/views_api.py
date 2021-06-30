@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -159,11 +160,29 @@ class TeamOccurrencesList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UserTeamActive(APIView):
+    """List the active Team of an User"""
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, user_id):  # working
+        user = get_object_or_404(User, pk=user_id)
+        teams = Team.objects.filter(team_technicians__technician=user, team_technicians__active=True)
+
+        if len(teams) != 0:
+            team = teams[0]
+            serializer = TeamSerializer(team)
+
+            return Response(serializer.data)
+
+        return HttpResponseNotFound()
+
+
 # done
 class OccurrenceList(APIView):
     """List all Occurrences"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):  # working
         occurrences = Occurrence.objects.all()
