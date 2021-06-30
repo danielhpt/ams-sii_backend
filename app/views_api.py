@@ -163,7 +163,7 @@ class TeamOccurrencesList(APIView):
 class UserTeamActive(APIView):
     """List the active Team of an User"""
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, user_id):  # working
         user = get_object_or_404(User, pk=user_id)
