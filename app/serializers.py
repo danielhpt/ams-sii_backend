@@ -67,6 +67,8 @@ class OccurrenceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data = self.data.serializer.initial_data
         del validated_data['id']
+        del validated_data['states']
+        del validated_data['victims']
         occurrence = Occurrence.objects.create(**validated_data)
         return occurrence
 
