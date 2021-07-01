@@ -1,7 +1,24 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseForbidden
 
+from .forms import OccurrenceNumberForm
 from .serializers import *
+
+
+def index(request):
+    if request.method == 'POST':
+        form = OccurrenceNumberForm(request.POST)
+        if form.is_valid():
+            occurrence_number = form.cleaned_data['occurrence_number']
+            return redirect('occurrence_list_by_number', occurrence_number=occurrence_number)
+    if request.user.is_authenticated:
+        context = {
+            'user': request.user,
+            'user_id': request.user.id,
+            'form': OccurrenceNumberForm()
+        }
+        return render(request, 'home.html', context=context)
+    return render(request, 'home.html')
 
 
 def userDetails(request, user_id):
@@ -27,12 +44,9 @@ def occurrenceListByNumber(request, occurrence_number):
 
     occurrences = Occurrence.objects.filter(occurrence_number=occurrence_number)
 
-
-
     context = {
         'occurrences': occurrences,
         'user_id': request.user.id
-
     }
 
     return render(request, 'occurrenceListByNumber.html', context=context)
@@ -44,12 +58,9 @@ def occurrenceDetails(request, occurrence_id):
 
     occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
 
-    occurrence = get_object_or_404(Occurrence, pk=occurrence_id)
-
     context = {
         'occurrence': occurrence,
         'user_id': request.user.id
-
     }
 
     return render(request, 'occurrenceDetails.html', context=context)

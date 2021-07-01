@@ -1,0 +1,33 @@
+@startuml
+!define LIGHTBLUE
+!includeurl https://gist.githubusercontent.com/amgs/de57560012a8a5f0e4240f392b678a40/raw/c43f948dd1f23ed1b87c6c9fc972e71493859b16/style.puml
+'https://plantuml.com/component-diagram
+
+package "Hetzner Cloud" {
+    node "Server 1/Server 2" {
+        frame "Localhost" {
+            component "Gunicorn" {
+                [Djando] - ()8000
+            }
+        }
+        [Nginx] --> ()8000:proxy
+        [Nginx] - ()80
+    }
+
+    node "Server 3" {
+        database "DB" {
+            [PostgreSQL] - ()5432
+        }
+    }
+
+    [Djando] ..> 5432:uses
+
+    [LoadBalancer] .> 80:2x
+    [LoadBalancer] -- ()"Expose 80"
+}
+
+(App) .> ()"Expose 80":Api
+
+(Browser) ..> ()"Expose 80":Web
+
+@enduml

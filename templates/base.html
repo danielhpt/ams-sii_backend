@@ -24,14 +24,6 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
                 </ul>
-                <form class="d-flex justify-content-end">
-                    <input class="form-control me-2" type="search" placeholder="Search Occurrence"
-                           aria-label="Search Occurrence">
-                    <button class="btn btn-outline-success" type="submit"
-                            href="{% url 'occurrence_list_by_number' 1 %}">
-                        Search
-                    </button>
-                </form>
                 {% if user_id %}
                     <ul>
                         <li class="nav-item">

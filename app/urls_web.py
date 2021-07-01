@@ -5,7 +5,7 @@ from django.urls import path, include
 from . import views_web
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', views_web.index, name='home'),
 
     path('admin/', admin.site.urls),
     path('api/', include('app.urls_api')),
