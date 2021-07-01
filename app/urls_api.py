@@ -19,7 +19,7 @@ urlpatterns = [
     path('teams/<int:team_id>/', TeamDetail.as_view(), name="team_detail"),
     path('teams/<int:team_id>/occurrences/', TeamOccurrencesList.as_view(), name="team_occurrences_list"),
 
-   path('team/active/<int:user_id>/', UserTeamActive.as_view(), name="team_user_active"),
+    path('team/active/<int:user_id>/', UserTeamActive.as_view(), name="team_user_active"),
 
     path('occurrences/', OccurrenceList.as_view(), name="occurrence_list"),  # admin only
     path('occurrences/<int:occurrence_id>/', OccurrenceDetails.as_view(), name="occurrence_detail"),

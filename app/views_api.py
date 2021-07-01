@@ -157,8 +157,8 @@ class TeamOccurrencesList(APIView):
 
     def get(self, request, team_id):  # working
         team = get_object_or_404(Team, pk=team_id)
-        occurrence = get_object_or_404(Occurrence, team=team)
-        serializer = OccurrenceSerializer(occurrence)
+        occurrence = Occurrence.objects.filter(team=team)
+        serializer = OccurrenceSerializer(occurrence, many=True)
 
         return Response(serializer.data)
 
