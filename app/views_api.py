@@ -87,6 +87,32 @@ class UserTeamList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UserActiveOccurrence(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):  # working
+        user = get_object_or_404(User, pk=user_id)
+        occurrences = Occurrence.objects.filter(team__team_technicians__technician=user, active=True)
+
+        if len(occurrences) > 0:
+            serializer = OccurrenceSerializer(occurrences[0])
+            return Response(serializer.data)
+
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, user_id):
+        user = get_object_or_404(User, pk=user_id)
+        occurrences = Occurrence.objects.filter(team__team_technicians__technician=user, active=True)
+
+        if len(occurrences) > 0:
+            occurrences[0].active = False
+            occurrences[0].save()
+            return Response(status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 # done
 class UserOccurrenceList(APIView):
     """List the occurrences of an User"""

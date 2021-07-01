@@ -61,6 +61,7 @@ class Occurrence(models.Model):
     local = models.CharField(max_length=100)
     parish = models.CharField(max_length=50)
     municipality = models.CharField(max_length=50)
+    active = models.BooleanField(default=True)
     team = models.ForeignKey(
         Team,
         related_name="occurrences",
