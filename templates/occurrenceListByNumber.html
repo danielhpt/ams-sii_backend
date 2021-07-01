@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %}<h1>Occurrence Search</h1>{% endblock %}
+{% block title %}<h1>Detalhes de Ocorrência</h1>{% endblock %}
 {% block content %}
+    <h1>Número de Ocorrência: {{ occurrence_number }}</h1>
     <div class="col-sm-3">
-
+    {% for occurrence in occurrences %}
+        <ul class="list-group">
+            <li class="list-group-item"><b>Id:</b> {{ occurrence.id }}</li>
+            <li class="list-group-item"><b>Entidade:</b> {{ occurrence.entity }}</li>
+            <li class="list-group-item"><b>Meio:</b> {{ occurrence.mean_of_assistance }}</li>
+            <li class="list-group-item"><b>Motivo</b> {{ occurrence.motive }}</li>
+            <li class="list-group-item"><b>Local:</b> {{ occurrence.local }}</li>
+            <li class="list-group-item"><b>Freguesia:</b> {{ occurrence.parish }}</li>
+            <li class="list-group-item"><b>Concelho:</b> {{ occurrence.municipality }}</li>
+            <li class="list-group-item"><b>Vítimas:</b>
+                <ul>
+                    {% for victim in occurrence.victims.all %}
+                        <a href="{% url 'victim_detail' victim.id %}"
+                           class="list-group-item list-group-item-action"><b>Id:</b> {{ victim.id }} -
+                            <b>Nome:</b> {{ victim.name }}</a>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    {% endfor %}
     </div>
     <div class="col-sm-3"></div>
     <div class="col-sm-3"></div>

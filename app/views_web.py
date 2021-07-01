@@ -46,7 +46,8 @@ def occurrenceListByNumber(request, occurrence_number):
 
     context = {
         'occurrences': occurrences,
-        'user_id': request.user.id
+        'user_id': request.user.id,
+        'occurrence_number': occurrence_number
     }
 
     return render(request, 'occurrenceListByNumber.html', context=context)
