@@ -27,7 +27,7 @@
                         <li class="list-group-item"><b>Última Refeição:</b> {{ victim.last_meal }}</li>
                         <li class="list-group-item"><b>Hora da última refeição:</b> {{ victim.last_meal_time }}</li>
                         <li class="list-group-item"><b>Medicação habitual:</b> {{ victim.usual_medication }}</li>
-                        <li class="list-group-item"><b>Situação de risco:</b>{{ victim.risk_situation }}</li>
+                        <li class="list-group-item"><b>Situação de risco:</b> {{ victim.risk_situation }}</li>
                         <li class="list-group-item"><b>Seguimento médico:</b>
                             {% if victim.medical_followup %}
                                 Sim
@@ -40,10 +40,10 @@
                         </li>
                         <li class="list-group-item"><b>Nº Episódio:</b> {{ victim.episode_number }}</li>
                         <li class="list-group-item"><b>Comentários:</b> {{ victim.comments }}</li>
-                        <li class="list-group-item"><b>Tipo de emergência</b>{{ victim.type_of_emergency }}</li>
-                        <li class="list-group-item"><b>Hora de SIV/SAV:</b>{{ victim.SIV_SAV }}</li>
-                        <li class="list-group-item"><b>Tipo de transporte</b>{{ victim.type_of_transport }}</li>
-                        <li class="list-group-item"><b>Razão de não Transporte</b>{{ victim.non_transport_reason }}</li>
+                        <li class="list-group-item"><b>Tipo de emergência</b> {{ victim.type_of_emergency }}</li>
+                        <li class="list-group-item"><b>Hora de SIV/SAV:</b> {{ victim.SIV_SAV }}</li>
+                        <li class="list-group-item"><b>Tipo de transporte</b> {{ victim.type_of_transport }}</li>
+                        <li class="list-group-item"><b>Razão de não Transporte</b> {{ victim.non_transport_reason }}</li>
                         <li class="list-group-item"><b>Ocurrência:</b><a
                                 href="{% url 'occurrence_detail' victim.occurrence.id %}"> {{ victim.occurrence.id }}</a>
                         </li>

@@ -3,16 +3,36 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
     {% if user.is_authenticated %}
-        Hi {{ user.username }}!
-        <form action="{% url 'home' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input class="btn btn-primary ml-2 mt-2" type="submit" value="Pesquisar">
-        </form>
-        <p><a href="{% url 'logout' %}">Log Out</a></p>
-    {% else %}
-        <p>Não se encontra logado!</p>
-        <a href="{% url 'login' %}">Log In</a>
+        <div class="container ">
+            <div class="form-group">
+                <p class="text-left"><b>Bem vindo {{ user.username }}!</b></p>
+                <p class="text-left">Caso pretenda fazer logout clique no botão abaixo!</p>
+            </div>
+            <div class="col left">
+                <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+            </div>
+
+            <div class="col text-center">
+                <p class="text-center">Pesquise por uma ocorrência na barra de pesquisa!</p>
+            <form action="{% url 'home' %}" method="post">
+                {% csrf_token %}
+                <b>{{ form.as_p }}</b>
+                <input class="btn btn-primary ml-2 mt-2 text-center" type="submit" value="Pesquisar">
+            </form>
+            </div>
+        </div>
+   {% else %}
+        <div class="container">
+            <div class="form-group">
+                <p class="text-center"><b>Não possui uma sessão iniciada!</b></p>
+                <p class="text-center">Por favor inicie a sua sessão clicando no botão abaixo!</p>
+                <div class="col text-center">
+                    <a class="btn btn-success" href="{% url 'login' %}">Login</a>
+                </div>
+            </div>
+        </div>
     {% endif %}
+
 {% endblock %}
