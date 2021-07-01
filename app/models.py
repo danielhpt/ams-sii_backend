@@ -229,7 +229,7 @@ class Evaluation(models.Model):
     pulse = models.PositiveSmallIntegerField(null=True, blank=True)
     ecg = models.BooleanField()
     skin = models.CharField(max_length=50, null=True, blank=True)
-    temperature = models.DecimalField(max_digits=3, decimal_places=1)
+    temperature = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
     systolic_blood_pressure = models.PositiveSmallIntegerField(null=True, blank=True)
     diastolic_blood_pressure = models.PositiveSmallIntegerField(null=True, blank=True)
     pupils = models.CharField(max_length=50, null=True, blank=True)
