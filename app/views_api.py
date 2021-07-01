@@ -275,6 +275,8 @@ class OccurrenceVictimsList(APIView):
 
         data = request.data.copy()
         data['occurrence'] = occurrence
+        del data['evaluations']
+        del data['pharmacies']
         serializer = VictimSerializer(data=data)
 
         if serializer.is_valid():

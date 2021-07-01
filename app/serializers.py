@@ -362,4 +362,4 @@ class VictimDetailsSerializer(serializers.ModelSerializer):
                   'medical_followup', 'health_unit_origin', 'health_unit_destination', 'episode_number', 'comments',
                   'type_of_emergency', 'type_of_transport', 'non_transport_reason', 'occurrence', 'evaluations',
                   'symptom', 'procedure_rcp', 'procedure_ventilation', 'procedure_protocol',
-                  'procedure_circulation', 'procedure_scale', 'pharmacies']
+                  'procedure_circulation', 'procedure_scale', 'pharmacies', 'SIV_SAV']
